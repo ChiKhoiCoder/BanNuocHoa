@@ -1,0 +1,9 @@
+Xin chào {{ subscriber.first_name|default:subscriber.email }},
+
+Đây là bản tin từ Perfume Shop.
+
+Nội dung chính:
+- Khuyến mãi và sản phẩm mới
+
+Trân trọng,
+Perfume Shop

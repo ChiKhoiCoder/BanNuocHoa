@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Tư Vấn & Quảng Cáo Sản Phẩm - ELÉGANCE{% endblock %}
+
+{% block content %}
+<!-- Advertisement Hero -->
+<section class="consultation-hero"
+    style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover; min-height: 70vh; display: flex; align-items: center; color: white;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h6 class="text-uppercase letter-spacing-5 mb-3" style="color: var(--primary-vibrant); font-weight: 800;">KHÁM
+            PHÁ BẢN SẮC RIÊNG</h6>
+        <h1 class="display-1 fw-bold luxe-gradient-text mb-4" style="letter-spacing: 10px;">CONSULTATION</h1>
+        <p class="lead mx-auto" style="max-width: 800px; font-weight: 300; font-size: 1.5rem;">Hãy để ELÉGANCE giúp bạn
+            tìm thấy "linh hồn" của mùi hương - định nghĩa hoàn hảo cho phong cách cá nhân.</p>
+    </div>
+</section>
+
+<!-- Diagnostic Section -->
+<section class="py-5" style="background: white;">
+    <div class="container py-5">
+        <div class="row text-center mb-5">
+            <div class="col-12" data-aos="fade-up">
+                <h2 class="display-5 fw-bold mb-3">Tìm Kiếm Mùi Hương Định Mệnh</h2>
+                <div class="luxe-divider mx-auto mb-4"></div>
+                <p class="text-muted lead">Dựa trên cá tính và sở thích, chúng tôi sẽ đề xuất những tuyệt tác phù hợp
+                    nhất với bạn.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="consult-card p-5 text-center border rounded-4 hover-lift">
+                    <i class="bi bi-wind fs-1 mb-3 text-primary"></i>
+                    <h4 class="fw-bold">Năng Động & Tươi Mát</h4>
+                    <p class="text-muted">Dành cho những tâm hồn tự do, yêu thích sự sảng khoái của cam chanh và biển
+                        cả.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-dark rounded-pill px-4">Xem Bộ Sưu Tập</a>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="consult-card p-5 text-center border rounded-4 hover-lift bg-dark text-white">
+                    <i class="bi bi-moon-stars fs-1 mb-3 text-primary"></i>
+                    <h4 class="fw-bold">Quyến Rũ & Huyền Bí</h4>
+                    <p class="text-light opacity-75">Sự kết hợp nồng nàn của gỗ quý, hổ phách và những nốt hương Phương
+                        Đông.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-light rounded-pill px-4">Xem Bộ Sưu
+                        Tập</a>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="consult-card p-5 text-center border rounded-4 hover-lift">
+                    <i class="bi bi-flower1 fs-1 mb-3 text-primary"></i>
+                    <h4 class="fw-bold">Thanh Lịch & Nữ Tính</h4>
+                    <p class="text-muted">Hương hoa cỏ tinh khôi, dịu dàng và đầy sức hút từ những vườn hoa Grasse.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-dark rounded-pill px-4">Xem Bộ Sưu Tập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scent Consultation CTA -->
+<section class="py-5" style="background: #f8f9fa;">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Consultation" class="img-fluid rounded-4 shadow-xl">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2 class="display-6 fw-bold mb-4">Chuyên Gia Tư Vấn Riêng</h2>
+                <p class="lead text-muted mb-4">Bạn vẫn chưa tìm được mùi hương ưng ý? Đừng lo lắng, các chuyên gia của
+                    ELÉGANCE luôn sẵn sàng hỗ trợ bạn 24/7 để chọn ra chai nước hoa phản ánh đúng nhất con người bạn.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="tel:0123456789" class="btn btn-primary btn-lg px-5 rounded-pill btn-shimmer">GỌI TƯ VẤN
+                        NGAY</a>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-dark btn-lg px-5 rounded-pill">XEM SẢN
+                        PHẨM</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Advertisement Section -->
+<section class="py-5 bg-white text-center">
+    <div class="container py-5" data-aos="zoom-up">
+        <h2 class="display-6 fw-bold mb-4 text-uppercase">Bộ Sưu Tập Giới Hạn</h2>
+        <p class="text-muted mb-5">Mỗi mùa, chúng tôi đều ra mắt những phiên bản độc bản cho các tín đồ nước hoa thượng
+            lưu.</p>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="ad-item">
+                    <div class="overflow-hidden rounded-4 mb-3">
+                        <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc2069?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=500"
+                            class="img-fluid hover-zoom" alt="Ad 1">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="ad-item">
+                    <div class="overflow-hidden rounded-4 mb-3">
+                        <img src="https://images.unsplash.com/photo-1615485242227-d4f3b7dfa902?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=500"
+                            class="img-fluid hover-zoom" alt="Ad 2">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="ad-item">
+                    <div class="overflow-hidden rounded-4 mb-3">
+                        <img src="https://images.unsplash.com/photo-1594002493902-6e273f09079a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=500"
+                            class="img-fluid hover-zoom" alt="Ad 3">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="ad-item">
+                    <div class="overflow-hidden rounded-4 mb-3">
+                        <img src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=500"
+                            class="img-fluid hover-zoom" alt="Ad 4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  <h3>Simulated Payment Gateway</h3>
+  <p>Transaction ID: {{ tx.id }}</p>
+  <p>Order: {{ tx.order.order_number }}</p>
+  <p>Amount: {{ tx.amount }}</p>
+
+  <form method="post" action="{% url 'payments:payment_return' %}">
+    {% csrf_token %}
+    <input type="hidden" name="tx_id" value="{{ tx.id }}" />
+    <button name="result" value="success" class="btn btn-success">Pay (simulate success)</button>
+    <button name="result" value="failed" class="btn btn-danger">Fail (simulate failure)</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,271 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+
+{% block title %}Quản Lý Đơn Hàng - Admin{% endblock %}
+{% block page_title %}Quản Lý Đơn Hàng{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filter-section {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        padding: 25px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+    }
+
+    .filter-label {
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .filter-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .filter-btn:hover {
+        background: rgba(180, 83, 9, 0.1);
+        border-color: rgba(180, 83, 9, 0.3);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+        background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 15px rgba(180, 83, 9, 0.3);
+    }
+
+    .table-card {
+        background: rgba(15, 23, 42, 0.4) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .table-luxe thead th {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        padding: 20px 25px !important;
+    }
+
+    .table-luxe tbody td {
+        padding: 20px 25px !important;
+        vertical-align: middle;
+        color: rgba(255, 255, 255, 0.8) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .badge-status {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid transparent;
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .status-approved {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        border-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .status-shipped {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8b5cf6;
+        border-color: rgba(139, 92, 246, 0.2);
+    }
+
+    .status-completed {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .status-cancelled {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-action {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        transition: all 0.3s;
+        text-decoration: none;
+    }
+
+    .btn-action:hover {
+        background: #b45309;
+        border-color: #b45309;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0 fw-bold text-white"><i class="fas fa-shopping-cart me-3 text-warning"></i>DANH SÁCH ĐƠN HÀNG
+            </h2>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <span class="filter-label">Trạng thái đơn hàng</span>
+            <div class="d-flex flex-wrap">
+                <a href="{% url 'admin_orders' %}" class="filter-btn {% if not status_filter %}active{% endif %}">TẤT
+                    CẢ</a>
+                <a href="{% url 'admin_orders' %}?status=pending"
+                    class="filter-btn {% if status_filter == 'pending' %}active{% endif %}">CHỜ XỬ LÝ</a>
+                <a href="{% url 'admin_orders' %}?status=approved"
+                    class="filter-btn {% if status_filter == 'approved' %}active{% endif %}">ĐÃ XÁC NHẬN</a>
+                <a href="{% url 'admin_orders' %}?status=shipped"
+                    class="filter-btn {% if status_filter == 'shipped' %}active{% endif %}">ĐANG GIAO</a>
+                <a href="{% url 'admin_orders' %}?status=completed"
+                    class="filter-btn {% if status_filter == 'completed' %}active{% endif %}">HOÀN THÀNH</a>
+                <a href="{% url 'admin_orders' %}?status=cancelled"
+                    class="filter-btn {% if status_filter == 'cancelled' %}active{% endif %}">ĐÃ HỦY</a>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table table-luxe mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">MÃ ĐƠN</th>
+                            <th style="width: 25%;">KHÁCH HÀNG</th>
+                            <th style="width: 20%;">THỜI GIAN</th>
+                            <th style="width: 15%;">TỔNG TIỀN</th>
+                            <th style="width: 15%;">TRẠNG THÁI</th>
+                            <th style="width: 15%; text-align: center;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td><span class="fw-bold text-primary">#{{ order.order_number }}</span></td>
+                            <td>
+                                <div class="fw-bold text-white">{{ order.full_name }}</div>
+                                <div class="text-muted small">{{ order.email }}</div>
+                            </td>
+                            <td>
+                                <div class="text-white opacity-75">{{ order.created_at|date:"d/m/Y" }}</div>
+                                <div class="text-muted small">{{ order.created_at|date:"H:i" }}</div>
+                            </td>
+                            <td><span class="fw-bold text-warning">{{ order.final_price|intcomma }}₫</span></td>
+                            <td>
+                                {% if order.status == 'pending' %}
+                                <span class="badge-status status-pending">Chờ xử lý</span>
+                                {% elif order.status == 'approved' %}
+                                <span class="badge-status status-approved">Đã xác nhận</span>
+                                {% elif order.status == 'shipped' %}
+                                <span class="badge-status status-shipped">Đang giao</span>
+                                {% elif order.status == 'completed' %}
+                                <span class="badge-status status-completed">Hoàn thành</span>
+                                {% else %}
+                                <span class="badge-status status-cancelled">Đã hủy</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'admin_order_detail' order.id %}" class="btn-action">
+                                    <i class="fas fa-eye me-1"></i> CHI TIẾT
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="text-muted opacity-50">
+                                    <i class="fas fa-receipt fa-4x mb-4"></i>
+                                    <h5 class="fw-bold">CHƯA CÓ ĐƠN HÀNG NÀO</h5>
+                                    <p class="mb-0">Đơn hàng mới sẽ xuất hiện tại đây.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        {% if orders.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-5 d-flex justify-content-center">
+            <ul class="pagination">
+                {% if orders.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;"
+                        href="?page={{ orders.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in orders.paginator.page_range %}
+                <li class="page-item mx-1 {% if orders.number == num %}active{% endif %}">
+                    <a class="page-link"
+                        style="{% if orders.number == num %}background: #b45309; border-color: #b45309;{% else %}background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);{% endif %} color: white; border-radius: 10px;"
+                        href="?page={{ num }}{% if status_filter %}&status={{ status_filter }}{% endif %}">{{ num }}</a>
+                </li>
+                {% endfor %}
+
+                {% if orders.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;"
+                        href="?page={{ orders.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

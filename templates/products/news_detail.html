@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Perfume Shop{% endblock %}
+
+{% block extra_css %}
+<style>
+    .post-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 60px 0;
+    }
+
+    .post-header {
+        margin-bottom: 40px;
+    }
+
+    .post-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .post-image {
+        border-radius: 15px;
+        margin-bottom: 40px;
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+    }
+
+    .post-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #444;
+    }
+
+    .post-content p {
+        margin-bottom: 25px;
+    }
+
+    .sidebar-widget {
+        background: var(--secondary-bg);
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .widget-title {
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row post-container">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'news_list' %}">Tin tức</a></li>
+                    <li class="breadcrumb-item active">{{ post.title|truncatechars:30 }}</li>
+                </ol>
+            </nav>
+
+            <header class="post-header" data-aos="fade-up">
+                <h1 class="post-title">{{ post.title }}</h1>
+                <div class="post-meta">
+                    <span><i class="bi bi-calendar3 me-1"></i> {{ post.created_at|date:"d/m/Y" }}</span>
+                    {% if post.author %}
+                    <span><i class="bi bi-person me-1"></i> {{ post.author.get_full_name|default:post.author.username
+                        }}</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image" data-aos="zoom-in">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+                alt="{{ post.title }}" class="post-image" data-aos="zoom-in">
+            {% endif %}
+
+            <div class="post-content" data-aos="fade-up">
+                {{ post.content|safe|linebreaks }}
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Related Posts -->
+            {% if recent_posts %}
+            <div class="related-posts mt-5" data-aos="fade-up">
+                <h4 class="mb-4">Bài viết liên quan</h4>
+                <div class="row g-4">
+                    {% for recent in recent_posts %}
+                    <div class="col-md-4">
+                        <div class="card border-0 h-100 shadow-sm rounded-4 overflow-hidden">
+                            <a href="{% url 'news_detail' recent.pk %}" class="text-decoration-none text-dark">
+                                <div class="news-img-wrapper" style="height: 150px;">
+                                    {% if recent.image %}
+                                    <img src="{{ recent.image.url }}" class="w-100 h-100 object-fit-cover">
+                                    {% else %}
+                                    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
+                                        class="w-100 h-100 object-fit-cover">
+                                    {% endif %}
+                                </div>
+                                <div class="p-3">
+                                    <h6 class="mb-0 line-clamp-2">{{ recent.title }}</h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Xác Nhận Xóa - Quản Trị Hệ Thống{% endblock %}
+{% block page_title %}Xác Nhận Xóa{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Cảnh Báo</h5>
+            </div>
+            <div class="card-body text-center">
+                <h4 class="card-title">Bạn có chắc chắn muốn xóa?</h4>
+                <p class="card-text">Sản phẩm <strong>"{{ product.name }}"</strong> sẽ bị xóa vĩnh viễn khỏi hệ thống.
+                </p>
+
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'admin_products' %}" class="btn btn-secondary">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-danger">Xóa Sản Phẩm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

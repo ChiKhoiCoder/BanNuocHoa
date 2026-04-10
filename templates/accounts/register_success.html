@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Thành Công - Bán Nước Hoa</title>
+    <link rel="stylesheet" href="{% static 'css/register_success.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <!-- Success Icon -->
+            <div class="success-body">
+                <div class="success-icon">
+                    <svg class="checkmark" width="70" height="70" viewBox="0 0 70 70">
+                        <circle cx="35" cy="35" r="32" stroke="#fff" stroke-width="2" fill="none"/>
+                        <polyline points="20 38 32 48 50 28" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <h2 class="success-title">Đăng Ký Thành Công!</h2>
+                <p class="success-message">
+                    Chúc mừng! Tài khoản của bạn đã được tạo thành công.<br>
+                    Bây giờ bạn có thể đăng nhập và bắt đầu mua sắm.
+                </p>
+
+                <!-- Account Preview -->
+                <div class="account-preview">
+                    <div class="account-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="account-info">
+                        <div class="account-name">Tài Khoản Của Bạn</div>
+                        <div class="account-email">Sẵn sàng sử dụng</div>
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="next-steps">
+                    <div class="next-steps-title">
+                        <i class="fas fa-list-check"></i> Các Bước Tiếp Theo
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Đăng Nhập Tài Khoản</div>
+                            <div class="step-description">Sử dụng tên đăng nhập và mật khẩu vừa tạo để đăng nhập</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Hoàn Thiện Hồ Sơ</div>
+                            <div class="step-description">Cập nhật thông tin địa chỉ và số điện thoại để nhận hàng</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Khám Phá Sản Phẩm</div>
+                            <div class="step-description">Duyệt qua bộ sưu tập nước hoa của chúng tôi</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Thanh Toán & Giao Hàng</div>
+                            <div class="step-description">Chọn sản phẩm yêu thích và thanh toán an toàn</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Mẹo:</strong> Hãy kiểm tra email của bạn để xác nhận tài khoản (nếu cần) và nhận những ưu đãi giới thiệu đặc biệt.
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'login' %}" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Đăng Nhập Ngay
+                    </a>
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-shopping-bag"></i> Khám Phá Sản Phẩm
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="success-footer">
+                <p class="footer-text">Tài khoản của bạn đã sẵn sàng.</p>
+                <div class="footer-links">
+                    <a href="{% url 'home' %}">Trang Chủ</a>
+                    <a href="#">Hỗ Trợ Khách Hàng</a>
+                    <a href="#">Điều Khoản Dịch Vụ</a>
+                    <a href="#">Chính Sách Bảo Mật</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <div style="text-align: center; color: white; margin-top: 30px; font-size: 13px;">
+            <p>Cảm ơn bạn đã tham gia cộng đồng của chúng tôi</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Auto-redirect after delay (optional)
+        // setTimeout(() => {
+        //     window.location.href = "{% url 'login' %}";
+        // }, 5000);
+    </script>
+</body>
+</html>

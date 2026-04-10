@@ -1,0 +1,99 @@
+{% load humanize %}
+{% if product %}
+<div class="card product-luxe-card elite-border h-100 border-0 position-relative">
+
+    <!-- Image Area -->
+    <a href="{% url 'product_detail' product.id %}"
+        class="text-decoration-none d-block position-relative product-img-wrap glitter-hover">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-main-img">
+        {% else %}
+        <div class="product-no-img">
+            <i class="bi bi-droplet-half"></i>
+        </div>
+        {% endif %}
+        
+        <div class="product-badge-wrap">
+            {% if product.stock < 10 %} 
+                <span class="product-badge badge-hot"><i class="bi bi-fire me-1"></i>Sắp hết</span>
+            {% elif product.is_featured %}
+                <span class="product-badge badge-featured"><i class="bi bi-star-fill me-1"></i>Bán chạy</span>
+            {% else %}
+                <span class="product-badge badge-premium"><i class="bi bi-gem me-1"></i>Cao cấp</span>
+            {% endif %}
+        </div>
+
+        <!-- Wishlist Button Over Image -->
+        <div class="position-absolute top-0 end-0 p-3 z-3">
+            <button class="btn-wishlist glitter-hover" data-product-id="{{ product.id }}"
+                aria-label="Yêu thích {{ product.name }}" style="border-radius: 50%; opacity: 0.9; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <i class="bi bi-heart"></i>
+            </button>
+        </div>
+    </a>
+
+    <!-- Card Body -->
+    <div class="product-body">
+
+        <!-- Brand -->
+        <div class="product-brand">{{ product.brand|upper }}</div>
+
+        <!-- Name -->
+        <h5 class="product-name">
+            <a href="{% url 'product_detail' product.id %}" class="product-name-link link-underline">{{ product.name }}</a>
+        </h5>
+
+        <!-- Rating -->
+        <div class="product-rating-wrap">
+            {% if product.rating > 0 %}
+            <div class="stars">
+                {% if product.rating >= 4.5 %}
+                <span>★★★★★</span>
+                {% elif product.rating >= 3.5 %}
+                <span>★★★★☆</span>
+                {% elif product.rating >= 2.5 %}
+                <span>★★★☆☆</span>
+                {% else %}
+                <span>★★☆☆☆</span>
+                {% endif %}
+            </div>
+            <span class="review-count">({{ product.num_reviews }})</span>
+            {% else %}
+            <span class="no-review">Chưa có đánh giá</span>
+            {% endif %}
+        </div>
+
+        <!-- Price -->
+        <div class="product-price-wrap mb-3">
+            {% if product.discount_price %}
+            <span class="price-main">{{ product.discount_price|intcomma }}₫</span>
+            <span class="price-old">{{ product.price|intcomma }}₫</span>
+            {% else %}
+            <span class="price-main">{{ product.price|intcomma }}₫</span>
+            {% endif %}
+        </div>
+
+        <!-- Actions -->
+        <div class="product-actions flex-column gap-2">
+            <div class="magnetic-wrap w-100">
+                <a href="{% url 'product_detail' product.id %}" class="btn-elite-detail w-100 justify-content-center glitter-hover d-flex align-items-center" style="padding: 7px 10px; border-radius: 10px; height: 36px; font-size: 0.82rem; font-weight: 700;">
+                    <i class="bi bi-eye me-2"></i> XEM CHI TIẾT
+                </a>
+            </div>
+            
+            <div class="magnetic-wrap w-100">
+                {% if user.is_authenticated %}
+                <button type="button" class="btn-add-to-cart w-100 add-to-cart glitter-hover text-white flex-grow-1" data-product-id="{{ product.id }}" style="padding: 7px 10px; height: 36px; font-size: 0.82rem; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); border-radius: 10px; box-shadow: 0 5px 18px rgba(255, 65, 108, 0.4); border: none; font-weight: 800; letter-spacing: 0.5px;">
+                    <i class="bi bi-cart-check me-2"></i> MUA NGAY
+                </button>
+                {% else %}
+                <a href="{% url 'auth' %}?next={{ request.path }}" class="btn-add-to-cart w-100 d-flex align-items-center justify-content-center text-white glitter-hover flex-grow-1" style="padding: 7px 10px; height: 36px; font-size: 0.82rem; background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); border-radius: 10px; box-shadow: 0 5px 18px rgba(255, 65, 108, 0.4); border: none; text-decoration: none; font-weight: 800; letter-spacing: 0.5px;">
+                    <i class="bi bi-cart-check me-2"></i> MUA NGAY
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endif %}

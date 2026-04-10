@@ -1,0 +1,20 @@
+<section class="hero-section"
+    style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('{{ hero_bg|default:"
+    https://images.unsplash.com/photo-1547610291-eb6964147ac5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" }}')
+    no-repeat center center/cover; min-height: 70vh; display: flex; align-items: center; color: white;">
+    <div class="container text-center">
+        <h1 class="hero-title luxe-gradient-text" data-aos="fade-up" style="letter-spacing: 8px;">{{
+            hero_title|default:"ELÉGANCE" }}</h1>
+        <p class="hero-subtitle mb-5 px-md-5" data-aos="fade-up" data-aos-delay="200"
+            style="font-size: 1.25rem; font-weight: 300;">
+            {{ hero_subtitle|default:"Architecture of Scent" }}
+        </p>
+        <div data-aos="fade-up" data-aos-delay="400">
+            <a href="{{ btn_url|default:'#' }}"
+                class="btn btn-primary btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg btn-shimmer"
+                style="background: linear-gradient(45deg, var(--secondary-vibrant), var(--primary-color)); border: none; letter-spacing: 2px;">
+                {{ btn_text|default:"DISCOVER" }}
+            </a>
+        </div>
+    </div>
+</section>

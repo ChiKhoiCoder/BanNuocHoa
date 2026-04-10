@@ -1,0 +1,238 @@
+/**
+ * Checkout Styles - Luxe Theme (Navy & Gold)
+ */
+
+:root {
+    --luxe-navy: #0f172a;
+    --luxe-gold: #b45309;
+    --luxe-gold-light: #d4a574;
+    --luxe-bg: #f8fafc;
+    --luxe-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Checkout Progress Bar ===== */
+.checkout-progress {
+    background: white;
+    padding: 40px 0;
+    margin-bottom: 50px;
+    border-radius: 24px;
+    box-shadow: var(--luxe-shadow);
+    border: 1px solid rgba(212, 165, 116, 0.1);
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.progress-line {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #e2e8f0;
+    z-index: 0;
+}
+
+.progress-line-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--luxe-navy) 0%, var(--luxe-gold) 100%);
+}
+
+.checkout-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.checkout-step.active .step-circle {
+    background: var(--luxe-navy);
+    border-color: var(--luxe-gold);
+    color: var(--luxe-gold-light);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(212, 165, 116, 0.4);
+}
+
+.checkout-step.active .step-label {
+    color: var(--luxe-navy);
+    font-weight: 700;
+}
+
+/* ===== Checkout Form Layout ===== */
+.checkout-form-container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--luxe-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--luxe-navy);
+    border-bottom: 2px solid var(--luxe-gold-light);
+    padding-bottom: 12px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--luxe-navy);
+}
+
+.form-control:focus {
+    border-color: var(--luxe-gold);
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+}
+
+/* ===== Order Summary Sticky Card ===== */
+.order-summary {
+    background: var(--luxe-navy);
+    color: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+    position: sticky;
+    top: 100px;
+    border: 1px solid rgba(212, 165, 116, 0.3);
+}
+
+.order-summary-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--luxe-gold-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.order-item-name {
+    color: #e2e8f0;
+}
+
+.order-item-price {
+    color: var(--luxe-gold-light);
+    font-weight: 700;
+}
+
+.total-row {
+    color: #94a3b8;
+}
+
+.total-row strong {
+    color: white;
+}
+
+.total-row.grand-total {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 15px;
+}
+
+.total-row.grand-total span {
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.total-row.grand-total .total-value {
+    color: var(--luxe-gold-light) !important;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+/* ===== Payment Method Custom Styling ===== */
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.payment-method label {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.payment-method input[type="radio"]:checked + label {
+    border-color: var(--luxe-gold);
+    background: rgba(180, 83, 9, 0.05);
+    box-shadow: 0 5px 15px rgba(180, 83, 9, 0.1);
+    transform: translateY(-2px);
+}
+
+.payment-method label i {
+    font-size: 28px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.payment-method input[type="radio"]:checked + label i {
+    color: var(--luxe-gold);
+}
+
+/* ===== Submit Button ===== */
+.submit-order-btn {
+    background: linear-gradient(135deg, var(--luxe-gold) 0%, #78350f 100%);
+    border: none;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 20px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    box-shadow: 0 10px 20px rgba(180, 83, 9, 0.3);
+    transition: all 0.3s ease;
+}
+
+.submit-order-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(180, 83, 9, 0.4);
+    filter: brightness(1.1);
+}
+
+.submit-order-btn:disabled {
+    background: #94a3b8;
+    box-shadow: none;
+    cursor: not-allowed;
+}

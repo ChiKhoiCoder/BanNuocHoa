@@ -1,0 +1,424 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+
+{% block title %}Admin Dashboard - Quản Lý Bán Hoa{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        background: var(--admin-card-bg) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--admin-card-border) !important;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        color: var(--admin-text) !important;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border-color: var(--admin-accent) !important;
+    }
+
+    .stat-icon {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: var(--admin-accent) !important;
+        background: rgba(180, 83, 9, 0.1);
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+    }
+
+    .stat-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: var(--admin-text) !important;
+        letter-spacing: -1px;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: var(--admin-muted-text) !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .chart-card {
+        background: var(--admin-card-bg) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--admin-card-border) !important;
+        border-radius: 24px;
+        overflow: hidden;
+    }
+
+    .table-luxe {
+        background: transparent !important;
+        color: var(--admin-text) !important;
+    }
+
+    .table-luxe thead th {
+        background: var(--admin-table-header) !important;
+        color: var(--admin-muted-text) !important;
+        border: none !important;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        padding: 15px 20px !important;
+    }
+
+    .table-luxe td {
+        border-bottom: 1px solid var(--admin-table-border) !important;
+        padding: 15px 20px !important;
+    }
+
+    /* Fixed cards in the middle row */
+    .card.h-100 {
+        background: var(--admin-card-bg);
+        border: 1px solid var(--admin-card-border);
+        border-radius: 20px;
+    }
+
+    .text-muted {
+        color: var(--admin-muted-text) !important;
+    }
+
+    .fw-bold.text-white {
+        color: var(--admin-text) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <!-- Statistics Cards -->
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card blue">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-value">{{ total_users|intcomma }}</div>
+                    <div class="stat-label">Tổng Người Dùng</div>
+                </div>
+                <div class="stat-icon text-primary"><i class="fas fa-users"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card green">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-value">{{ total_products|intcomma }}</div>
+                    <div class="stat-label">Tổng Sản Phẩm</div>
+                </div>
+                <div class="stat-icon text-success"><i class="fas fa-box"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card purple">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-value">{{ total_orders|intcomma }}</div>
+                    <div class="stat-label">Tổng Đơn Hàng</div>
+                </div>
+                <div class="stat-icon text-info"><i class="fas fa-shopping-cart"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card orange">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="stat-value">{{ total_revenue|intcomma }}₫</div>
+                    <div class="stat-label">Tổng Doanh Thu</div>
+                </div>
+                <div class="stat-icon text-warning"><i class="fas fa-dollar-sign"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted mb-2">Doanh Thu Tháng Này</h6>
+                <h3 class="text-success mb-0">{{ this_month_revenue|intcomma }}₫</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted mb-2">Tổng Danh Mục</h6>
+                <h3 class="text-warning mb-0">{{ total_categories }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted mb-2">Đánh Giá Sản Phẩm</h6>
+                <h3 class="text-info mb-0">{{ total_reviews }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted mb-2">Đơn Chờ Xử Lý</h6>
+                <h3 class="text-danger mb-0">{{ pending_orders }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row mb-4">
+    <div class="col-lg-8 mb-4">
+        <div class="chart-card h-100">
+            <div class="card-header bg-transparent border-0 py-4 px-4">
+                <h5 class="mb-0 fw-bold text-white"><i class="fas fa-chart-line me-2 text-primary"></i>Doanh Thu & Đơn
+                    Hàng (30 Ngày)</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+        <div class="chart-card h-100">
+            <div class="card-header bg-transparent border-0 py-4 px-4">
+                <h5 class="mb-0 fw-bold text-white"><i class="fas fa-chart-pie me-2 text-warning"></i>Danh Mục</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Top Products -->
+    <div class="col-lg-6 mb-4">
+        <div class="chart-card h-100">
+            <div
+                class="card-header bg-transparent border-0 py-4 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-white"><i class="fas fa-trophy me-2 text-warning"></i>Top Sản Phẩm Bán Chạy
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-luxe align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Sản Phẩm</th>
+                                <th class="text-center">Số Lượng</th>
+                                <th class="text-end pe-4">Doanh Thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products %}
+                            <tr>
+                                <td class="ps-4 fw-medium text-white">{{ product.product__name }}</td>
+                                <td class="text-center">
+                                    <span
+                                        class="badge bg-primary bg-opacity-25 text-primary rounded-pill border border-primary border-opacity-50 px-3">{{
+                                        product.total_quantity }}</span>
+                                </td>
+                                <td class="text-end pe-4 fw-bold text-warning">{{ product.total_revenue|intcomma }}₫
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center py-5 text-muted">Chưa có dữ liệu</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="col-lg-6 mb-4">
+        <div class="chart-card h-100">
+            <div
+                class="card-header bg-transparent border-0 py-4 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-white"><i class="fas fa-clock me-2 text-primary"></i>Đơn Hàng Gần Đây</h5>
+                <a href="{% url 'admin_orders' %}" class="btn btn-sm btn-outline-warning rounded-pill px-3"
+                    style="font-size: 0.75rem;">XEM TẤT CẢ</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-luxe align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Mã Đơn</th>
+                                <th>Khách Hàng</th>
+                                <th>Tổng Tiền</th>
+                                <th class="text-end pe-4">Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-primary">#{{ order.order_number }}</td>
+                                <td class="text-white opacity-75">{{ order.full_name }}</td>
+                                <td class="text-white">{{ order.final_price|intcomma }}₫</td>
+                                <td class="text-end pe-4">
+                                    {% if order.status == 'pending' %}
+                                    <span
+                                        class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-50 rounded-pill px-3">Chờ
+                                        xử lý</span>
+                                    {% elif order.status == 'approved' %}
+                                    <span
+                                        class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-50 rounded-pill px-3">Đã
+                                        xác nhận</span>
+                                    {% elif order.status == 'shipped' %}
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-50 rounded-pill px-3">Đang
+                                        giao</span>
+                                    {% elif order.status == 'completed' %}
+                                    <span
+                                        class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-50 rounded-pill px-3">Hoàn
+                                        thành</span>
+                                    {% else %}
+                                    <span
+                                        class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-50 rounded-pill px-3">Đã
+                                        hủy</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">Chưa có đơn hàng nào</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: {{ dates_labels| safe }},
+        datasets: [
+        {
+            label: 'Doanh Thu (VNĐ)',
+            data: {{ daily_revenue| safe }},
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        yAxisID: 'y'
+                    },
+        {
+            label: 'Đơn Hàng',
+            data: {{ daily_orders| safe }},
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        fill: false,
+        tension: 0.4,
+        yAxisID: 'y1'
+                    }
+    ]
+            },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                beginAtZero: true,
+                title: { display: true, text: 'Doanh Thu' }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                beginAtZero: true,
+                grid: { drawOnChartArea: false },
+                title: { display: true, text: 'Số Đơn' }
+            }
+        }
+    }
+        });
+
+    // Category Chart
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                {% for category in category_products %}'{{ category.name }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+                ],
+        datasets: [{
+            data: [
+                {% for category in category_products %}{{ category.product_count }}{% if not forloop.last %}, {% endif %} {% endfor %}
+                    ],
+    backgroundColor: [
+        '#3b82f6', '#10b981', '#8b5cf6', '#f59e0b',
+        '#ef4444', '#ec4899', '#6366f1', '#14b8a6'
+    ],
+        borderWidth: 0
+                }]
+            },
+    options: {
+        responsive: true,
+            maintainAspectRatio: false,
+                plugins: {
+            legend: {
+                position: 'bottom',
+                    labels: {
+                    padding: 20,
+                        usePointStyle: true
+                }
+            }
+        },
+        cutout: '70%'
+    }
+        });
+    });
+</script>
+{% endblock %}

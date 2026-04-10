@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}So sánh sản phẩm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center fw-bold" style="color: #d4a574;">So Sánh Sản Phẩm</h1>
+
+    {% if products %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 20%;">Tiêu chí</th>
+                    {% for product in products %}
+                    <th style="width: 26%;">
+                        <a href="{% url 'product_detail' product.id %}" class="text-white text-decoration-none">{{
+                            product.name }}</a>
+                        <button class="btn btn-sm btn-outline-light ms-2 remove-compare"
+                            data-id="{{ product.id }}"
+                            data-confirm="Bạn có chắc muốn xóa sản phẩm này khỏi danh sách so sánh?">&times;</button>
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="fw-bold">Hình ảnh</td>
+                    {% for product in products %}
+                    <td>
+                        <a href="{% url 'product_detail' product.id %}">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid"
+                                style="max-height: 150px; object-fit: contain;">
+                            {% else %}
+                            <img src="https://via.placeholder.com/150" class="img-fluid">
+                            {% endif %}
+                        </a>
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Giá bán</td>
+                    {% for product in products %}
+                    <td>
+                        {% if product.discount_price %}
+                        <span class="text-danger fw-bold">{{ product.discount_price|intcomma }} ₫</span>
+                        <br><small class="text-decoration-line-through text-muted">{{ product.price|intcomma }}
+                            ₫</small>
+                        {% else %}
+                        <span class="fw-bold">{{ product.price|intcomma }} ₫</span>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Thương hiệu</td>
+                    {% for product in products %}
+                    <td>{{ product.brand }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Loại hương</td>
+                    {% for product in products %}
+                    <td>{{ product.scent_type }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Dung tích</td>
+                    {% for product in products %}
+                    <td>{{ product.volume }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Tình trạng</td>
+                    {% for product in products %}
+                    <td>
+                        {% if product.stock > 0 %}
+                        <span class="text-success">Còn hàng</span>
+                        {% else %}
+                        <span class="text-danger">Hết hàng</span>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bold">Đánh giá</td>
+                    {% for product in products %}
+                    <td>{{ product.rating }} ⭐ ({{ product.num_reviews }})</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td></td>
+                    {% for product in products %}
+                    <td>
+                        {% if product.stock > 0 %}
+                        <form method="post" action="{% url 'add_to_cart' product.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <button class="btn btn-primary btn-sm">Thêm vào giỏ</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5" id="empty-message" style="display: none;">
+        <i class="fas fa-balance-scale fa-3x text-muted mb-3"></i>
+        <p class="lead">Bạn chưa chọn sản phẩm nào để so sánh.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-primary">Tiếp tục mua sắm</a>
+    </div>
+    <div class="text-center py-5" id="loading-message">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Đang tải dữ liệu so sánh...</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasIds = urlParams.has('ids');
+        const compareList = JSON.parse(localStorage.getItem('compareList')) || [];
+
+        // If URL has no IDs but localStorage does, redirect to URL with IDs
+        if (!hasIds && compareList.length > 0) {
+            const ids = compareList.map(p => p.id).join(',');
+            window.location.href = `?ids=${ids}`;
+        } else if (!hasIds && compareList.length === 0) {
+            // No items to compare
+            document.getElementById('loading-message').style.display = 'none';
+            document.getElementById('empty-message').style.display = 'block';
+        } else if (hasIds) {
+            // We are viewing comparison, hide loading
+            const loadingMsg = document.getElementById('loading-message');
+            if (loadingMsg) loadingMsg.style.display = 'none';
+        }
+
+        // Handle remove button
+        document.querySelectorAll('.remove-compare').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const idToRemove = parseInt(this.getAttribute('data-id'));
+                let list = JSON.parse(localStorage.getItem('compareList')) || [];
+                list = list.filter(p => p.id !== idToRemove);
+                localStorage.setItem('compareList', JSON.stringify(list));
+
+                // Reload with new IDs
+                if (list.length > 0) {
+                    const ids = list.map(p => p.id).join(',');
+                    window.location.href = `?ids=${ids}`;
+                } else {
+                    window.location.href = window.location.pathname; // Reload to show empty state
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

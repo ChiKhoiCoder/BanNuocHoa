@@ -1,0 +1,457 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi" data-theme="{% if request.GET.theme == 'light' %}light{% else %}dark{% endif %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        :root {
+            /* Default Dark Luxe Theme (as in the screenshot) */
+            --admin-bg: #0f172a;
+            --admin-text: #f8fafc;
+            --admin-card-bg: rgba(30, 41, 59, 0.7);
+            --admin-card-border: rgba(255, 255, 255, 0.1);
+            --admin-sidebar-bg: rgba(15, 23, 42, 0.9);
+            --admin-accent: #b45309;
+            --admin-accent-gradient: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+            --admin-topbar-bg: rgba(30, 41, 59, 0.5);
+            --admin-table-header: rgba(255, 255, 255, 0.05);
+            --admin-table-border: rgba(255, 255, 255, 0.05);
+            --admin-muted-text: rgba(248, 250, 252, 0.5);
+        }
+
+        [data-theme="light"] {
+            --admin-bg: #f1f5f9;
+            --admin-text: #0f172a;
+            --admin-card-bg: #ffffff;
+            --admin-card-border: #e2e8f0;
+            --admin-sidebar-bg: #ffffff;
+            --admin-topbar-bg: #ffffff;
+            --admin-table-header: #f8fafc;
+            --admin-table-border: #e2e8f0;
+            --admin-muted-text: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            color: var(--admin-text);
+            {% if not request.GET.theme == 'light' %}
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 100%, hsla(215, 25%, 27%, 1) 0, transparent 50%) !important;
+            background-attachment: fixed;
+            {% endif %}
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar {
+            background: var(--admin-sidebar-bg) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            padding-top: 20px;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid var(--admin-card-border);
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        .sidebar .brand {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--admin-card-border);
+        }
+
+        .sidebar .brand h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--admin-accent);
+            font-weight: 900;
+            letter-spacing: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--admin-muted-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin: 4px 15px;
+            border-radius: 12px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            color: var(--admin-text);
+            background: rgba(180, 83, 9, 0.1);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--admin-accent-gradient);
+            color: white !important;
+            box-shadow: 0 4px 20px rgba(180, 83, 9, 0.3);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            transition: margin 0.3s;
+        }
+
+        .topbar {
+            background: var(--admin-topbar-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--admin-card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .topbar h1 {
+            font-size: 1.5rem;
+            color: var(--admin-text);
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .btn-view-site {
+            background: rgba(255, 255, 255, 0.05);
+            color: #b45309;
+            border: 1px solid #b45309;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-view-site:hover {
+            background: #b45309;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: var(--admin-card-bg);
+            border: 1px solid var(--admin-card-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            color: var(--admin-text);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-theme-toggle {
+            background: var(--admin-card-bg);
+            border: 1px solid var(--admin-card-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-theme-toggle:hover {
+            background: var(--admin-accent);
+        }
+
+        .btn-theme-toggle:hover i {
+            color: white !important;
+        }
+
+        .text-admin-label {
+            color: var(--admin-text);
+            opacity: 0.8;
+            border-color: var(--admin-card-border) !important;
+        }
+
+        .logout-btn {
+            color: #ef4444;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .text-admin-header { color: var(--admin-text) !important; }
+        .text-admin-muted { color: var(--admin-muted-text) !important; }
+        .text-admin-info { color: var(--admin-text) !important; }
+
+        .stat-card {
+            padding: 25px;
+            text-align: center;
+            background: white;
+        }
+
+        .stat-card .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .stat-card .stat-label {
+            font-size: 14px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 48px;
+            color: #667eea;
+            opacity: 0.3;
+            margin-bottom: 10px;
+        }
+
+        .table-responsive {
+            border-radius: 8px;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            border: none;
+            font-weight: 600;
+            color: #555;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-color: #f0f0f0;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-shipped {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-completed {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 10px;
+            }
+
+            .sidebar .brand {
+                padding: 15px 10px;
+            }
+
+            .sidebar .brand h3 {
+                font-size: 16px;
+            }
+
+            .sidebar .brand p {
+                display: none;
+            }
+
+            .sidebar-menu a {
+                padding: 15px 10px;
+                text-align: center;
+                font-size: 10px;
+            }
+
+            .sidebar-menu i {
+                margin-right: 0;
+                width: auto;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 10px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stat-value {
+                font-size: 24px !important;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <h3>ELÉGANCE</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="{% url 'admin_dashboard' %}"
+                    class="{% if request.resolver_match.url_name == 'admin_dashboard' or request.resolver_match.url_name == 'admin_dashboard_alt' %}active{% endif %}">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_statistics' %}"
+                    class="{% if request.resolver_match.url_name == 'admin_statistics' %}active{% endif %}">
+                    <i class="fas fa-chart-bar"></i> Thống Kê
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_products' %}"
+                    class="{% if 'product' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-box"></i> Sản Phẩm
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_orders' %}"
+                    class="{% if 'order' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin_users' %}"
+                    class="{% if 'user' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-users"></i> Người Dùng
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'home' %}">
+                    <i class="fas fa-home"></i> Về Trang Chủ
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}" data-confirm="Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?">
+                    <i class="fas fa-signout"></i> Đăng Xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <h1>
+                {% block page_title %}Dashboard{% endblock %}
+            </h1>
+            <div class="user-info d-flex align-items-center">
+                <a href="?theme={% if request.GET.theme == 'light' %}dark{% else %}light{% endif %}" class="btn-theme-toggle me-3" title="Chuyển chế độ sáng/tối">
+                    <i class="fas {% if request.GET.theme == 'light' %}fa-moon{% else %}fa-sun{% endif %} text-warning"></i>
+                </a>
+                <a href="{% url 'home' %}" class="btn-view-site me-3">
+                    <i class="fas fa-external-link-alt me-1"></i> XEM CỬA HÀNG
+                </a>
+                <div class="user-profile d-flex align-items-center">
+                    <span class="text-admin-label fw-medium me-3 border-start ps-3">
+                        {{ request.user.first_name|default:request.user.username }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="logout-btn" data-confirm="Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?">
+                        <i class="fas fa-power-off"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/confirm-actions.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách sản phẩm{% endblock %}
+
+{% block content %}
+{% if request.GET.sale == '1' %}
+<section class="sale-header-luxe">
+    <div class="container" data-aos="zoom-in">
+        <span class="badge bg-white text-danger px-3 py-2 rounded-pill mb-3 fw-bold">MEGA SALE EVENT</span>
+        <h1 class="display-3 fw-bold mb-3">LỄ HỘI MÙI HƯƠNG</h1>
+        <p class="lead mb-4">Giảm giá chấn động lên đến 50% cho toàn bộ sưu tập cao cấp. Chỉ diễn ra trong 48h!</p>
+        <div class="countdown-timer d-flex justify-content-center mb-4">
+            <div class="mx-2"><span>01</span><small class="d-block mt-1">NGÀY</small></div>
+            <div class="mx-2"><span>14</span><small class="d-block mt-1">GIỜ</small></div>
+            <div class="mx-2"><span>45</span><small class="d-block mt-1">PHÚT</small></div>
+            <div class="mx-2"><span>32</span><small class="d-block mt-1">GIÂY</small></div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5">
+    <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-right">
+            <div class="coupon-card">
+                <small class="text-uppercase letter-spacing-1">Mã giảm thêm 15%</small>
+                <span class="coupon-code">LUXE15</span>
+                <button class="btn btn-sm btn-dark rounded-pill px-4">Sao chép</button>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="coupon-card">
+                <small class="text-uppercase letter-spacing-1">Miễn phí Ship mọi đơn</small>
+                <span class="coupon-code">FREESHIP</span>
+                <button class="btn btn-sm btn-dark rounded-pill px-4">Sao chép</button>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-left">
+            <div class="coupon-card">
+                <small class="text-uppercase letter-spacing-1">Giảm ngay 200k</small>
+                <span class="coupon-code">ELITE200</span>
+                <button class="btn btn-sm btn-dark rounded-pill px-4">Sao chép</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- Breadcrumb Navigation -->
+<div class="container">
+    <nav aria-label="breadcrumb" class="my-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% if request.GET.sale == '1' %}Khuyến mại{% else
+                %}Sản phẩm{% endif %}</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="container-fluid px-4 py-4 product-list-page">
+    <div class="d-flex justify-content-between align-items-center mb-3" data-aos="fade-up">
+        <h2 class="section-title mb-0">Bộ sưu tập</h2>
+        <a href="?sale=1" class="btn btn-primary rounded-pill">
+            <i class="bi bi-percent me-2"></i>Ưu đãi đặc biệt
+        </a>
+    </div>
+
+    {% if request.GET.sale != '1' %}
+    <!-- Tag Filter Quick Links -->
+    {% include 'components/tag_filter.html' %}
+    {% endif %}
+
+    <!-- Search & Filter -->
+    <div class="d-flex gap-3 mb-4 align-items-start">
+        {% if request.GET.sale != '1' %}
+        <div style="width: 155px; min-width: 155px; flex-shrink: 0;" data-aos="fade-right">
+            {% include 'components/sidebar_filters.html' %}
+        </div>
+        {% endif %}
+
+        <!-- Products -->
+        <div class="flex-grow-1 product-list-container" data-aos="fade-left">
+
+            <!-- Sorting & Tools -->
+            <div
+                class="d-flex flex-wrap justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm border">
+                <div class="active-filters d-flex flex-wrap gap-2 align-items-center">
+                    <span class="text-muted small me-2"><i class="bi bi-sliders me-1"></i>Bộ lọc:</span>
+                    {% if query %}
+                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">Tìm: {{ query }}</span>
+                    {% endif %}
+                    {% if selected_tag %}
+                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">Thẻ: {{ selected_tag }}</span>
+                    {% endif %}
+                    {% if not query %}
+                    {% if not selected_tag %}
+                    {% if not selected_categories %}
+                    {% if not selected_brands %}
+                    {% if not selected_scents %}
+                    <span class="text-muted small italic">Tất cả sản phẩm</span>
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                    <!-- Add more badges for categories, brands if needed -->
+                </div>
+
+                <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+                    <label class="small text-muted text-nowrap d-none d-sm-block">Sắp xếp theo:</label>
+                    <form action="" method="get" id="sort-form" class="d-flex">
+                        {% for key, value in request.GET.items %}
+                        {% if key != 'sort' and key != 'page' %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}">
+                        {% endif %}
+                        {% endfor %}
+                        <select name="sort" class="form-select form-select-sm border-0 bg-light rounded-pill px-3"
+                            onchange="this.form.submit()">
+                            <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Mới nhất</option>
+                            <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Giá: Thấp
+                                đến Cao</option>
+                            <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Giá: Cao
+                                đến Thấp</option>
+                            <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Đánh giá tốt nhất
+                            </option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="row g-3" id="products-container">
+                {% for product in products %}
+                <div class="col-6 col-md-4 col-lg-3" data-aos="zoom-in">
+                    {% include 'products/product_card.html' %}
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">Không tìm thấy sản phẩm nào.</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-4" id="pagination-container">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1&{{ request.GET.urlencode }}">Đầu tiên</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">Trước</a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in paginator.page_range %}
+                    {% if num == page_obj.number %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">Tiếp</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ paginator.num_pages }}&{{ request.GET.urlencode }}">Cuối
+                            cùng</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

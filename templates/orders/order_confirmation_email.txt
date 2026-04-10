@@ -1,0 +1,12 @@
+Xin chào {{ user.get_full_name|default:user.username }},
+
+Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi.
+
+Mã đơn hàng: {{ order.order_number }}
+Tổng tiền: {{ order.final_price|floatformat:0 }} ₫
+Trạng thái: {{ order.get_status_display }}
+
+Chúng tôi sẽ cập nhật trạng thái đơn hàng khi có thay đổi.
+
+Trân trọng,
+Đội ngũ bán hàng

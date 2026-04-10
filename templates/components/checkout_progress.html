@@ -1,0 +1,32 @@
+<!-- Checkout Progress Bar Component -->
+<div class="checkout-progress">
+    <div class="progress-container">
+        <div class="progress-line">
+            <div class="progress-line-fill" style="width: {{ progress_percentage }}%;"></div>
+        </div>
+
+        <div
+            class="checkout-step {% if current_step >= 1 %}completed{% endif %} {% if current_step == 1 %}active{% endif %}">
+            <div class="step-circle">1</div>
+            <div class="step-label">Giỏ hàng</div>
+        </div>
+
+        <div
+            class="checkout-step {% if current_step >= 2 %}completed{% endif %} {% if current_step == 2 %}active{% endif %}">
+            <div class="step-circle">2</div>
+            <div class="step-label">Thông tin</div>
+        </div>
+
+        <div
+            class="checkout-step {% if current_step >= 3 %}completed{% endif %} {% if current_step == 3 %}active{% endif %}">
+            <div class="step-circle">3</div>
+            <div class="step-label">Thanh toán</div>
+        </div>
+
+        <div
+            class="checkout-step {% if current_step >= 4 %}completed{% endif %} {% if current_step == 4 %}active{% endif %}">
+            <div class="step-circle">4</div>
+            <div class="step-label">Hoàn tất</div>
+        </div>
+    </div>
+</div>

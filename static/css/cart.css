@@ -1,0 +1,121 @@
+/**
+ * Cart Styles - Luxe Theme (Navy & Gold)
+ */
+
+:root {
+    --luxe-navy: #0f172a;
+    --luxe-gold: #b45309;
+    --luxe-gold-light: #d4a574;
+    --luxe-glass: rgba(255, 255, 255, 0.9);
+    --luxe-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Cart Page Layout ===== */
+.cart-page {
+    padding: 60px 0;
+    min-height: 80vh;
+}
+
+.cart-items-container {
+    background: var(--luxe-glass);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--luxe-shadow);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cart-item-row:hover {
+    background: rgba(212, 165, 116, 0.05);
+    transform: translateX(10px);
+}
+
+.cart-item-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--luxe-navy);
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    font-weight: 600;
+    color: var(--luxe-gold);
+}
+
+.card-summary {
+    background: var(--luxe-navy);
+    color: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+    position: sticky;
+    top: 100px;
+    border: 1px solid rgba(212, 165, 116, 0.3);
+}
+
+.card-summary h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--luxe-gold-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.summary-value {
+    color: white;
+}
+
+.summary-row:last-child .summary-value {
+    color: var(--luxe-gold-light) !important;
+}
+
+.checkout-btn {
+    background: linear-gradient(135deg, var(--luxe-gold) 0%, #78350f 100%);
+    border: none;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 10px 20px rgba(180, 83, 9, 0.3);
+}
+
+.checkout-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(180, 83, 9, 0.4);
+    filter: brightness(1.1);
+}
+
+/* Form check custom styling */
+.form-check-input:checked {
+    background-color: var(--luxe-gold);
+    border-color: var(--luxe-gold);
+}
+
+/* Responsive improvements */
+@media (max-width: 991.98px) {
+    .card-summary {
+        margin-top: 40px;
+        position: static;
+    }
+}

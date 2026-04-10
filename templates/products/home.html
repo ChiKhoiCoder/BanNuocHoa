@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang chủ{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/home.css">
+{% endblock %}
+
+{% block content %}
+<!-- Premium Hero Section (Redesigned for Maximum Visual Impact) -->
+<section class="hero-section position-relative" style="min-height: 90vh; display: flex; align-items: center; overflow: hidden; background: #0f172a; padding-top: 80px;">
+    <!-- Abstract Animated Background -->
+    <div class="position-absolute w-100 h-100 top-0 start-0" style="z-index: 0; opacity: 0.6;">
+        <div style="position: absolute; top: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(60px); animation: float 10s infinite ease-in-out;"></div>
+        <div style="position: absolute; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(236,72,153,0.25) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(80px); animation: float 14s infinite ease-in-out reverse;"></div>
+        <div style="position: absolute; top: 30%; left: 40%; width: 40%; height: 40%; background: radial-gradient(circle, rgba(255,107,53,0.2) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(50px); animation: float 12s infinite ease-in-out 2s;"></div>
+    </div>
+
+    <!-- Background Pattern overlay -->
+    <div class="position-absolute w-100 h-100 top-0 start-0" style="z-index: 1; background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'#ffffff\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center">
+            <!-- Left Side: Text and Call to Action -->
+            <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1200">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-4 rounded-pill shadow-sm" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                    <span class="badge rounded-pill bg-danger" style="font-size: 0.7rem;">MỚI NHẤT</span>
+                    <span class="text-white fw-bold font-serif" style="font-size: 0.85rem; letter-spacing: 1px;">BỘ SƯU TẬP 2024 ĐÃ RA MẮT</span>
+                </div>
+                
+                <h1 class="display-3 fw-bold mb-4 text-white" style="line-height: 1.1; font-family: 'Playfair Display', serif;">
+                    Nghệ Thuật <br>
+                    <span style="background: linear-gradient(135deg, #d4a574 0%, #ff6b35 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 5px 15px rgba(255,107,53,0.3);">Hương Thơm</span> <br>
+                    Độc Bản
+                </h1>
+                
+                <p class="lead text-light mb-5 font-serif" style="opacity: 0.9; max-width: 500px; font-size: 1.1rem; border-left: 3px solid #ff416c; padding-left: 15px;">
+                    Đánh thức mọi giác quan với những note hương tinh tế nhất từ các thương hiệu nước hoa danh giá hàng đầu thế giới. Khẳng định đẳng cấp của riêng bạn.
+                </p>
+                
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'product_list' %}" class="btn btn-glimmer btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg" style="letter-spacing: 1px; font-size: 1rem;">
+                        <i class="bi bi-bag-heart me-2"></i> KHÁM PHÁ NGAY
+                    </a>
+                    <a href="{% url 'consultation' %}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold" style="border-width: 2px; backdrop-filter: blur(5px);">
+                        TƯ VẤN CÁ NHÂN
+                    </a>
+                </div>
+                
+                <div class="mt-5 d-flex align-items-center gap-4 text-white-50">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-shield-check fs-4 text-success"></i>
+                        <span class="fw-bold" style="font-size: 0.9rem;">100% Chính Hãng</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-truck fs-4 text-info"></i>
+                        <span class="fw-bold" style="font-size: 0.9rem;">Giao Cấp Tốc 2H</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side: Spectacular Glassmorphism Perfume Display -->
+            <div class="col-lg-6 position-relative" data-aos="zoom-in-up" data-aos-duration="1500" data-aos-delay="200">
+                <div class="position-relative d-flex justify-content-center align-items-center" style="height: 500px;">
+                    
+                    <!-- Decorative Circles behind the bottle -->
+                    <div class="position-absolute shadow-lg" style="width: 350px; height: 350px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(15px); animation: pulse 6s infinite;"></div>
+                    <div class="position-absolute" style="width: 250px; height: 250px; border-radius: 50%; border: 1px dashed rgba(255,107,53,0.5); animation: spin 20s linear infinite;"></div>
+                    
+                    <!-- Main Image container -->
+                    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Luxury Perfume" class="img-fluid rounded-4 shadow-2xl position-relative" style="z-index: 10; max-height: 450px; object-fit: cover; border: 4px solid rgba(255,255,255,0.1); transform: rotate(5deg); transition: transform 0.5s ease;" onmouseover="this.style.transform='rotate(0deg) scale(1.05)'" onmouseout="this.style.transform='rotate(5deg) scale(1)'">
+                    
+                    <!-- Floating Stat Cards -->
+                    <div class="position-absolute shadow-lg rounded-4 p-3" style="top: 10%; right: -5%; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); z-index: 20; animation: float 6s infinite ease-in-out;">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-white text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="bi bi-heart-fill"></i>
+                            </div>
+                            <div>
+                                <small class="text-white-50 d-block font-serif">Được yêu thích nhất</small>
+                                <span class="text-white fw-bold h5 mb-0">Chanel N°5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="position-absolute shadow-lg rounded-4 p-3" style="bottom: 15%; left: 0%; background: rgba(0,0,0,0.4); backdrop-filter: blur(15px); border: 1px solid rgba(139,92,246,0.4); z-index: 20; animation: float 8s infinite ease-in-out reverse;">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-warning display-6">
+                                ★★★★★
+                            </div>
+                            <div class="text-white">
+                                <span class="d-block fw-bold display-6 mb-0">4.9/5</span>
+                                <small class="text-white-50">10k+ Đánh giá</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% if discounted_products %}
+<!-- Heritage Icons Section -->
+<section class="hot-deals-section" data-aos="fade-up">
+    <div class="container">
+        <div class="row align-items-end mb-5">
+            <div class="col-lg-6">
+                <span class="section-tag">Signature Heritage</span>
+                <h2 class="display-5 fw-bold" style="background: linear-gradient(135deg, #ff6b35 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    SIÊU PHẨM GIỚI HẠN
+                </h2>
+                <p class="text-muted lead">
+                    Khám phá những nốt hương độc bản đang được "săn đón" nhất mùa này. Duy nhất tại PERFUMESHOP với đặc quyền ưu đãi không thể bỏ lỡ.
+                </p>
+                <div class="mt-3">
+                    <span class="badge bg-dark p-3 px-4 fw-bold">
+                        <i class="bi bi-hourglass-split me-2"></i>THỜI GIAN CÒN LẠI: 14H : 45P : 32S
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-6 text-lg-end">
+                <a href="{% url 'product_list' %}?sale=1" class="btn btn-outline-dark btn-lg rounded-pill px-5 py-3">
+                    XEM TẤT CẢ SIÊU PHẨM <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for product in discounted_products|slice:":4" %}
+            <div class="col-md-6 col-lg-6 mb-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter }}00">
+                {% include 'products/product_card.html' %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Collection -->
+<section class="py-5" style="background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(102,126,234,0.02) 100%);">
+    <div class="container py-5" data-aos="fade-up">
+        <div class="section-header">
+            <span class="section-tag">Bộ Sưu Tập Đặc Biệt</span>
+            <h2 class="section-title shimmer-text" data-text="Những Tuyệt Tác Được Săn Đón">Những Tuyệt Tác Được Săn Đón</h2>
+            <div class="section-underline mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-6 col-md-4 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                {% include 'products/product_card.html' %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Shop by Categories -->
+<section class="py-5" style="background: white;">
+    <div class="container py-5" data-aos="fade-up">
+        <div class="section-header">
+            <span class="section-tag">Không Gian Mùi Hương</span>
+            <h2 class="section-title shimmer-text" data-text="Khám Phá Theo Nhóm Hương">Khám Phá Theo Nhóm Hương</h2>
+            <div class="section-underline mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter }}00">
+                <a href="{% url 'category_detail' category.pk %}" class="category-luxe-card elite-border glitter-hover">
+                    <div class="category-image-wrapper">
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                        {% else %}
+                        <div class="placeholder-img">{{ category.name|slice:":1" }}</div>
+                        {% endif %}
+                        <div class="category-overlay">
+                            <h4 class="text-white fw-bold">{{ category.name }}</h4>
+                            <button class="btn btn-sm">XEM NGAY <i class="bi bi-arrow-right ms-1"></i></button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Latest Arrivals -->
+<section class="py-5" style="background: linear-gradient(135deg, rgba(102,126,234,0.03) 0%, rgba(240,147,251,0.03) 100%);">
+    <div class="container py-5" data-aos="fade-up">
+        <div class="row align-items-end mb-5">
+            <div class="col-lg-7 text-center text-lg-start" data-aos="fade-right">
+                <span class="section-tag bg-white text-primary px-3 py-1 rounded-pill mb-3 d-inline-block fw-bold font-serif" style="letter-spacing: 2px;">LUXURY COLLECTION 2024</span>
+                <h1 class="hero-title shimmer-text mb-4" data-text="Tinh Hoa Hương Thơm Quyến Rũ">Tinh Hoa Hương Thơm Quyến Rũ</h1>
+                <p class="hero-subtitle mb-5 font-serif italic text-white-50">Khám phá bộ sưu tập nước hoa cao cấp, nơi mỗi mùi hương là một bản giao hưởng của sự sang trọng và đẳng cấp.</p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    <a href="{% url 'product_list' %}" class="btn btn-vibrant btn-lg glitter-hover">
+                        Khám Phá Ngay <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for product in latest_products %}
+            <div class="col-12 col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <div class="glitter-hover h-100">
+                    {% include 'products/product_card.html' %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5" style="background: white;">
+    <div class="container py-5" data-aos="fade-up">
+        <div class="section-header">
+            <span class="section-tag">Lắng Nghe Khách Hàng</span>
+            <h2 class="section-title">Câu Chuyện Của Những Người Yêu Hương</h2>
+            <div class="section-underline mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up">
+                <div class="testimonial-card">
+                    <div class="mb-3 text-warning">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p class="fst-italic text-muted mb-4 text-reveal">"Tôi đã mua nhiều nơi nhưng ở đây cảm giác thực sự khác biệt. Từ cách tư vấn đến chất lượng nước hoa đều rất tuyệt vời."</p>
+                    <div class="d-flex align-items-center">
+                        <div style="width: 50px; height: 50px; background: var(--vibrant-gradient); border-radius: 50%; margin-right: 15px;"></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Nguyễn Thu Thủy</h6>
+                            <small class="text-muted">Khách hàng VIP</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="mb-3 text-warning">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p class="fst-italic text-muted mb-4 text-reveal">"Dịch vụ giao hàng 2h thật sự ấn tượng. Tôi cần quà gấp cho sếp và đã nhận được rất nhanh."</p>
+                    <div class="d-flex align-items-center">
+                        <div style="width: 50px; height: 50px; background: var(--gold-gradient); border-radius: 50%; margin-right: 15px;"></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Trần Minh Quân</h6>
+                            <small class="text-muted">Manager tại TechBase</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="mb-3 text-warning">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill-half"></i>
+                    </div>
+                    <p class="fst-italic text-muted mb-4 text-reveal">"Mùi hương ở đây rất phong phú, từ niche hiếm gặp đến designer phổ biến. Nhân viên tư vấn rất am hiểu."</p>
+                    <div class="d-flex align-items-center">
+                        <div style="width: 50px; height: 50px; background: var(--luxe-gradient); border-radius: 50%; margin-right: 15px;"></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Lê Hoàng Nam</h6>
+                            <small class="text-muted">Collector Nước Hoa</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b35 100%); color: white;">
+    <div class="container text-center py-5" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-3">Gia Nhập Cộng Đồng Sành Hương</h2>
+        <p class="lead mb-4">Nhận ngay thông báo về các bộ sưu tập giới hạn và ưu đãi đặc quyền dành riêng cho bạn</p>
+        <form action="{% url 'subscribe_newsletter' %}" method="POST" class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+            {% csrf_token %}
+            <input type="email" name="email" class="form-control form-control-lg rounded-pill px-4" placeholder="Nhập email của bạn..." required style="max-width: 400px; border: none; background: rgba(255,255,255,0.1); color: white;">
+            <button type="submit" class="btn btn-hero px-5" style="background: white; color: #667eea; border: none;">
+                ĐĂNG KÝ NGAY
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

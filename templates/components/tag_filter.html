@@ -1,0 +1,82 @@
+<!-- Tag Filter Quick Links (Feature 16) -->
+<div class="mb-5" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Khám phá theo phong cách</h5>
+        {% if selected_tag %}
+        <a href="?{% for key, value in request.GET.items %}{% if key != 'tag' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+            class="btn btn-sm btn-link text-muted text-decoration-none">
+            <i class="bi bi-x-circle me-1"></i>Xóa lọc thẻ
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="tag-cloud d-flex flex-wrap gap-2">
+        {% for tag in display_tags %}
+        <a href="?tag={{ tag }}{% for key, value in request.GET.items %}{% if key != 'tag' and key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+            class="tag-item {% if selected_tag == tag %}active{% endif %}">
+            <i class="bi bi-hash"></i>{{ tag }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .tag-item {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 18px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 30px;
+        color: #64748b;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .tag-item i {
+        font-size: 0.8rem;
+        margin-right: 2px;
+        opacity: 0.6;
+    }
+
+    .tag-item:hover {
+        background: #fdf8f0;
+        border-color: #b45309;
+        color: #b45309;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(180, 83, 9, 0.1);
+    }
+
+    .tag-item.active {
+        background: #b45309;
+        border-color: #b45309;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(180, 83, 9, 0.2);
+    }
+
+    .tag-item.active i {
+        opacity: 1;
+    }
+
+    [data-theme="dark"] .tag-item {
+        background: #1e293b;
+        border-color: #334155;
+        color: #94a3b8;
+    }
+
+    [data-theme="dark"] .tag-item:hover {
+        background: #332d20;
+        border-color: #fbbf24;
+        color: #fbbf24;
+    }
+
+    [data-theme="dark"] .tag-item.active {
+        background: #fbbf24;
+        border-color: #fbbf24;
+        color: #000;
+    }
+</style>

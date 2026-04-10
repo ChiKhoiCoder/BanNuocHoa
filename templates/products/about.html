@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Về chúng tôi - Perfume Shop{% endblock %}
+
+{% block extra_css %}
+<style>
+    .story-section {
+        padding: 100px 0;
+    }
+
+    .story-img {
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .story-img:hover {
+        transform: scale(1.03) translateY(-10px);
+    }
+
+    .stat-card {
+        padding: 40px;
+        border-radius: 20px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 40px rgba(212, 165, 116, 0.15);
+        border-color: var(--primary-color);
+    }
+
+    .stat-number {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+        letter-spacing: -1px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="luxe-page-header">
+    <div class="container" data-aos="fade-up">
+        <h1>Về chúng tôi</h1>
+        <p>Hương thơm kể câu chuyện của sự tinh tế</p>
+    </div>
+</section>
+
+<section class="story-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Our Story" class="img-fluid story-img">
+            </div>
+            <div class="col-lg-6 ps-lg-5" data-aos="fade-left">
+                <h2 class="mb-4" style="color: var(--primary-color);">Câu chuyện của chúng tôi</h2>
+                <p>Khởi nguồn từ niềm đam mê mãnh liệt với những nốt hương tinh tế, Perfume Shop ra đời với sứ mệnh mang
+                    đến cho khách hàng những trải nghiệm khứu giác tuyệt vời nhất từ các thương hiệu hàng đầu thế giới.
+                </p>
+                <p>Chúng tôi không chỉ bán nước hoa, chúng tôi trao gửi sự tự tin, phong cách và những kỷ niệm được lưu
+                    giữ qua từng giọt hương. Mỗi chai nước hoa tại cửa hàng đều được tuyển chọn kỹ lưỡng, đảm bảo 100%
+                    chính hãng và chất lượng nguyên bản.</p>
+                <div class="mt-4">
+                    <a href="{% url 'product_list' %}" class="btn btn-primary px-4 py-2">Khám phá bộ sưu tập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light" style="background-color: var(--secondary-bg) !important;">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="text-muted">Năm kinh nghiệm</div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="text-muted">Sản phẩm chính hãng</div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card">
+                    <div class="stat-number">50k+</div>
+                    <div class="text-muted">Khách hàng tin tưởng</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="mb-5" data-aos="fade-up">Giá trị cốt lõi</h2>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="flip-left">
+                <i class="bi bi-shield-check fs-1 text-primary mb-3"></i>
+                <h4>Chất lượng hàng đầu</h4>
+                <p class="text-muted">Chúng tôi cam kết tuyệt đối về nguồn gốc và chất lượng của từng sản phẩm bán ra.
+                </p>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                <i class="bi bi-heart fs-1 text-primary mb-3"></i>
+                <h4>Khách hàng là trọng tâm</h4>
+                <p class="text-muted">Sự hài lòng của quý khách là ưu tiên cao nhất và là động lực phát triển của chúng
+                    tôi.</p>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+                <i class="bi bi-stars fs-1 text-primary mb-3"></i>
+                <h4>Dịch vụ chuyên nghiệp</h4>
+                <p class="text-muted">Đội ngũ chuyên gia tư vấn giàu kinh nghiệm, sẵn sàng hỗ trợ bạn tìm thấy hương
+                    thơm ưng ý nhất.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

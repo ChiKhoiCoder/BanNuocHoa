@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Liên hệ - Perfume Shop{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-container {
+        padding-bottom: 100px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 30px;
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(212, 165, 116, 0.1);
+        color: var(--primary-color);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin-right: 20px;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .info-item:hover .info-icon {
+        background: var(--primary-color);
+        color: white;
+        transform: rotate(10deg);
+    }
+
+    .map-container {
+        height: 450px;
+        border-radius: 24px;
+        overflow: hidden;
+        margin-top: 80px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="luxe-page-header">
+    <div class="container" data-aos="fade-up">
+        <h1>Liên hệ</h1>
+        <p>Chúng tôi luôn sẵn sàng lắng nghe bạn</p>
+    </div>
+</section>
+
+<div class="container contact-container">
+
+    <div class="row">
+        <!-- Contact Info -->
+        <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
+            <div class="contact-info-card">
+                <h4 class="mb-4">Thông tin liên hệ</h4>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div>
+                        <h5>Địa chỉ</h5>
+                        <p class="text-muted mb-0">123 Đường Xuân Thủy, Cầu Giấy, Hà Nội, Việt Nam</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <div>
+                        <h5>Điện thoại</h5>
+                        <p class="text-muted mb-0">(+84) 123-456-789</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div>
+                        <h5>Email</h5>
+                        <p class="text-muted mb-0">info@perfumeshop.com</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div>
+                        <h5>Giờ mở cửa</h5>
+                        <p class="text-muted mb-0">Thứ 2 - Chủ nhật: 08:30 - 21:30</p>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                <h5>Theo dõi chúng tôi</h5>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-circle"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-circle"><i
+                            class="bi bi-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-circle"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-circle"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-7" data-aos="fade-left">
+            <div class="card border-0 shadow-lg p-5 rounded-4">
+                <h4 class="mb-4 fw-bold">Gửi tin nhắn</h4>
+                <form action="{% url 'contact' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Họ tên</label>
+                            <input type="text" name="name" class="form-control" placeholder="Nguyễn Văn A" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="email@gmail.com"
+                                required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Chủ đề</label>
+                        <input type="text" name="subject" class="form-control" placeholder="Tư vấn sản phẩm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nội dung</label>
+                        <textarea name="message" class="form-control" rows="5" placeholder="Nội dung tin nhắn..."
+                            required></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary px-5 py-2">Gửi ngay <i
+                                class="bi bi-send ms-2"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Placeholder -->
+
+</div>
+{% endblock %}

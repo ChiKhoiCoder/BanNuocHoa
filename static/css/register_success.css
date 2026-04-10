@@ -1,0 +1,457 @@
+/* Register Success Page Styles */
+
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --success-color: #4CAF50;
+    --text-dark: #333;
+    --text-light: #666;
+    --bg-light: #f8f9fa;
+    --border-color: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.success-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.success-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotateZ(-5deg);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg);
+    }
+}
+
+.success-body {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+    animation: bounce 1s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.checkmark {
+    animation: checkmark 0.6s ease-in-out 0.3s both;
+}
+
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 50;
+        opacity: 0;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+.success-title {
+    font-size: 32px;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.success-message {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.success-details {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 40px;
+    text-align: left;
+    border-left: 4px solid var(--success-color);
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.detail-item label {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.detail-item value {
+    color: var(--text-dark);
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+/* Info Box */
+.info-box {
+    background: #e3f2fd;
+    border-left: 4px solid #2196F3;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 30px;
+    font-size: 13px;
+    color: #1565c0;
+    line-height: 1.6;
+}
+
+.info-box i {
+    margin-right: 8px;
+}
+
+/* Timeline / Steps */
+.next-steps {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.next-steps-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.step-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 3px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.step-item:last-child {
+    margin-bottom: 0;
+    border-left-color: transparent;
+    padding-bottom: 0;
+}
+
+.step-number {
+    min-width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.step-description {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* Countdown Timer (Optional) */
+.countdown-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dark);
+}
+
+.countdown-label {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.countdown-timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family: 'Courier New', monospace;
+}
+
+/* Success Footer */
+.success-footer {
+    background: var(--bg-light);
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-text {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Account Preview */
+.account-preview {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.account-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.account-info {
+    flex: 1;
+}
+
+.account-name {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.account-email {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .success-container {
+        max-width: 100%;
+    }
+
+    .success-card {
+        border-radius: 15px;
+    }
+
+    .success-body {
+        padding: 40px 25px;
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .success-title {
+        font-size: 26px;
+    }
+
+    .success-message {
+        font-size: 14px;
+    }
+
+    .next-steps {
+        padding: 20px;
+    }
+
+    .step-item {
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 12px 25px;
+    }
+
+    .footer-links {
+        gap: 15px;
+    }
+
+    .account-preview {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .account-info {
+        flex: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .success-body {
+        padding: 30px 20px;
+    }
+
+    .success-title {
+        font-size: 22px;
+    }
+
+    .success-message {
+        font-size: 13px;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .action-buttons {
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .next-steps-title {
+        font-size: 14px;
+    }
+
+    .step-title {
+        font-size: 13px;
+    }
+
+    .step-description {
+        font-size: 12px;
+    }
+}

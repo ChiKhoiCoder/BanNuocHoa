@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/product_detail.css">
+{% endblock %}
+
+{% block content %}
+<section class="product-detail-hero">
+    <div class="container" data-aos="fade-up">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="bi bi-house-fill me-2"></i>Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Product Image -->
+        <div class="col-md-5" data-aos="fade-right">
+            <div class="product-image-container">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <div style="height: 500px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: rgba(255,255,255,0.3);">
+                    <i class="bi bi-image"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-7" data-aos="fade-left">
+            <span class="product-brand"><i class="bi bi-sparkles me-2"></i>{{ product.brand }}</span>
+            
+            <h2>{{ product.name }}</h2>
+            
+            <!-- Rating -->
+            <div class="product-rating">
+                <div class="stars">
+                    {% if product.rating > 0 %}
+                        {% for i in "12345" %}
+                            {% if i|add:0 <= product.rating %}
+                            <i class="bi bi-star-fill"></i>
+                            {% else %}
+                            <i class="bi bi-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-muted">Chưa có đánh giá</span>
+                    {% endif %}
+                </div>
+                {% if product.num_reviews > 0 %}
+                <small class="text-muted">{{ product.rating }}/5 — {{ product.num_reviews }} đánh giá</small>
+                {% endif %}
+            </div>
+
+            <!-- Price -->
+            <div class="product-price-section">
+                {% if product.discount_price %}
+                <div class="product-price">{{ product.discount_price|intcomma }} ₫</div>
+                <div class="product-original-price">{{ product.price|intcomma }} ₫</div>
+                <span class="discount-badge"><i class="bi bi-lightning-charge-fill me-1"></i>Giảm {{ product.get_discount_percent }}%</span>
+                {% else %}
+                <div class="product-price">{{ product.price|intcomma }} ₫</div>
+                {% endif %}
+            </div>
+
+            <!-- Product Details -->
+            <div class="product-details-list">
+                <div class="detail-item">
+                    <strong><i class="bi bi-tag me-2"></i>Danh mục:</strong>
+                    <span>{{ product.category.name }}</span>
+                </div>
+                <div class="detail-item">
+                    <strong><i class="bi bi-flower1 me-2"></i>Loại hương:</strong>
+                    <span>{{ product.scent_type }}</span>
+                </div>
+                <div class="detail-item">
+                    <strong><i class="bi bi-droplet-fill me-2"></i>Dung tích:</strong>
+                    <span>{{ product.volume }}</span>
+                </div>
+                <div class="detail-item">
+                    <strong><i class="bi bi-box-seam me-2"></i>Kho hàng:</strong>
+                    <span>
+                        {% if product.stock > 0 %}
+                        <span class="stock-badge">Còn {{ product.stock }} sản phẩm</span>
+                        {% else %}
+                        <span class="stock-badge stock-out">Hết hàng</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Add to Cart -->
+            {% if user.is_authenticated and product.stock > 0 %}
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <div class="quantity-selector">
+                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-add-to-cart mb-3">
+                    <i class="bi bi-cart-plus me-2"></i>THÊM VÀO GIỎ
+                </button>
+            </form>
+            <button class="btn btn-wishlist">
+                <i class="bi bi-heart me-2"></i>YÊU THÍCH
+            </button>
+            {% elif product.stock == 0 %}
+            <div style="background: #ffeaa7; padding: 20px; border-radius: 15px; text-align: center;">
+                <i class="bi bi-exclamation-circle" style="font-size: 2rem; color: #d68910;"></i>
+                <p class="mt-2 fw-bold" style="color: #d68910;">Sản phẩm hiện đã hết hàng</p>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-add-to-cart w-100">
+                <i class="bi bi-box-arrow-in-right me-2"></i>ĐĂNG NHẬP ĐỂ MUA HÀNG
+            </a>
+            {% endif %}
+
+            <!-- Description -->
+            <h4 class="mt-5 mb-3">Mô tả sản phẩm</h4>
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 style="color: #d4a574;">Sản phẩm liên quan</h3>
+        </div>
+        {% for related in related_products %}
+        <div class="col-md-6 col-lg-3 mb-4">
+            {% include 'products/product_card.html' with product=related %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Reviews Section -->
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <h3 style="color: #d4a574;">Đánh giá từ khách hàng</h3>
+
+            {% if user.is_authenticated %}
+            <div class="mb-4">
+                <a href="{% url 'add_review' product.id %}" class="btn btn-outline-primary">
+                    <i class="bi bi-pencil"></i> Viết đánh giá
+                </a>
+            </div>
+            {% endif %}
+
+            {% if reviews %}
+            {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">{{ review.title }}</h5>
+                            <p class="text-muted small">{{ review.user.username }} - {{ review.created_at|date:"d/m/Y"
+                                }}</p>
+                            <div style="color: #d4a574;">
+                                {% for i in "x"|rjust:review.rating %}⭐{% endfor %}
+                            </div>
+                        </div>
+                        {% if user.is_authenticated and user == review.user %}
+                        <form method="post" action="{% url 'delete_review' review.id %}" style="display: inline;"
+                            data-confirm="Bạn có chắc muốn xóa đánh giá này?">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <p class="card-text mt-2">{{ review.comment }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-muted">Chưa có đánh giá nào.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productId = {{ product.id }};
+        fetch('/api/view_increment/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': (window.getCookie && getCookie('csrftoken')) || '',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `product_id=${productId}`
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    const viewCounter = document.getElementById('view-count-num');
+                    if (viewCounter) viewCounter.innerText = data.count;
+                }
+            })
+            .catch(err => console.error('View count error:', err));
+    });
+</script>
+{% endblock %}

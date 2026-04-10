@@ -1,0 +1,39 @@
+{% load humanize %}
+{% if cart and cart.items.all %}
+    <div class="mini-cart-scroll" style="max-height: 350px; overflow-y: auto; padding-right: 5px;">
+        {% for item in cart.items.all|slice:":5" %}
+        <div class="d-flex align-items-center mb-3 p-2 rounded-3 hover-bg-glass transition-smooth">
+            <div class="position-relative">
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" class="rounded-3 shadow-sm" style="width:55px; height:55px; object-fit:cover; border: 1px solid var(--border-color);" />
+                {% else %}
+                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" style="width:55px; height:55px;">
+                    <i class="bi bi-image text-muted"></i>
+                </div>
+                {% endif %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary shadow-sm" style="font-size: 0.65rem;">
+                    {{ item.quantity }}
+                </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <div class="fw-bold text-truncate" style="max-width: 150px; font-size: 0.9rem; color: var(--text-color);">{{ item.product.name }}</div>
+                <div class="small text-muted" style="font-size: 0.8rem;">{{ item.product.brand }}</div>
+                <div class="fw-bold mt-1" style="color: var(--primary-color); font-size: 0.85rem;">{{ item.get_total_price|intcomma }} ₫</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="pt-3 border-top mt-2">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small uppercase fw-bold" style="letter-spacing: 1px;">TỔNG CỘNG</span>
+            <span class="fs-5 fw-900" style="background: var(--vibrant-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ cart.get_total_price|intcomma }} ₫</span>
+        </div>
+    </div>
+{% else %}
+    <div class="text-center py-4">
+        <i class="bi bi-cart-x fs-1 opacity-25 mb-3 d-block"></i>
+        <p class="text-muted">Giỏ hàng của bạn đang rỗng</p>
+        <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-primary rounded-pill mt-2">MUA SẮM NGAY</a>
+    </div>
+{% endif %}

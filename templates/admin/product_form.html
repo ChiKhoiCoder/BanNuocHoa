@@ -1,0 +1,326 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+{% block title %}{{ title }} - Admin{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-card {
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 30px;
+        margin-bottom: 24px;
+    }
+
+    .form-section-title {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #b45309;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .form-label {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        border-radius: 12px !important;
+        padding: 12px 16px !important;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: #b45309 !important;
+        box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15) !important;
+        color: white !important;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    textarea.form-control {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .form-check-input {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .form-check-input:checked {
+        background-color: #b45309 !important;
+        border-color: #b45309 !important;
+    }
+
+    .form-check-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.88rem;
+    }
+
+    .image-preview-box {
+        border: 2px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.02);
+        margin-bottom: 12px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .image-preview-box:hover {
+        border-color: #b45309;
+        background: rgba(180, 83, 9, 0.05);
+    }
+
+    .image-preview-box img {
+        max-height: 200px;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 12px;
+    }
+
+    .image-preview-placeholder {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.25);
+    }
+
+    .image-preview-placeholder i {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .image-preview-placeholder span {
+        font-size: 0.8rem;
+    }
+
+    input[type="file"].form-control {
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #b45309, #78350f);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 14px;
+        font-weight: 800;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(180, 83, 9, 0.3);
+    }
+
+    .btn-save:hover {
+        background: linear-gradient(135deg, #d97706, #b45309);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(180, 83, 9, 0.4);
+        color: white;
+    }
+
+    .btn-cancel {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 28px;
+        border-radius: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1) !important;
+        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        color: #fca5a5 !important;
+        border-radius: 12px !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<div class="alert alert-danger mb-4">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    <strong>Có lỗi! Vui lòng kiểm tra lại thông tin:</strong>
+    <ul class="mb-0 mt-2">
+        {% for field, errors in form.errors.items %}
+        <li>{{ field }}: {{ errors|join:", " }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row g-4">
+
+        <!-- Left: Main Info -->
+        <div class="col-lg-8">
+            <div class="form-card">
+                <div class="form-section-title"><i class="fas fa-info-circle me-2"></i>Thông Tin Cơ Bản</div>
+
+                <div class="mb-4">
+                    <label class="form-label">Tên sản phẩm *</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Mô tả chi tiết</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Giá bán (VNĐ) *</label>
+                        {{ form.price }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Giá khuyến mãi (VNĐ)</label>
+                        {{ form.discount_price }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Flags -->
+            <div class="form-card">
+                <div class="form-section-title"><i class="fas fa-toggle-on me-2"></i>Trạng Thái</div>
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-check">
+                            {{ form.is_active }}
+                            <label class="form-check-label ms-2">Đang kinh doanh (hiện trên web)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-check">
+                            {{ form.is_featured }}
+                            <label class="form-check-label ms-2">Sản phẩm nổi bật</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Details & Image -->
+        <div class="col-lg-4">
+
+            <!-- Category & Brand -->
+            <div class="form-card">
+                <div class="form-section-title"><i class="fas fa-tags me-2"></i>Phân Loại</div>
+                <div class="mb-4">
+                    <label class="form-label">Danh mục *</label>
+                    {{ form.category }}
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Thương hiệu</label>
+                    {{ form.brand }}
+                </div>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label">Số lượng kho</label>
+                        {{ form.stock }}
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Dung tích (ml)</label>
+                        {{ form.volume }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="form-card">
+                <div class="form-section-title"><i class="fas fa-image me-2"></i>Hình Ảnh Sản Phẩm</div>
+
+                <div class="image-preview-box" id="imagePreviewBox">
+                    {% if form.instance.image %}
+                    <img src="{{ form.instance.image.url }}" alt="Ảnh hiện tại" id="imagePreview">
+                    {% else %}
+                    <div class="image-preview-placeholder" id="imagePlaceholder">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Nhấn để chọn ảnh</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <label class="form-label">Chọn ảnh từ máy tính</label>
+                {{ form.image }}
+                <small class="d-block mt-2" style="color:rgba(255,255,255,0.3);font-size:0.75rem;">JPG, PNG, WEBP. Tối
+                    đa 5MB. Khuyến nghị 800x800px.</small>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex align-items-center gap-3 mt-2">
+        <button type="submit" class="btn-save">
+            <i class="fas fa-save me-2"></i>LƯU SẢN PHẨM
+        </button>
+        <a href="{% url 'admin_products' %}" class="btn-cancel">
+            <i class="fas fa-times me-2"></i>Hủy bỏ
+        </a>
+        {% if form.instance.pk %}
+        <a href="{% url 'product_detail' form.instance.pk %}" target="_blank" class="ms-auto btn-cancel"
+            style="color:rgba(255,255,255,0.4);">
+            <i class="fas fa-external-link-alt me-1"></i>Xem trên web
+        </a>
+        {% endif %}
+    </div>
+
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.querySelector('input[type="file"]');
+        const previewBox = document.getElementById('imagePreviewBox');
+
+        if (fileInput) {
+            fileInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    previewBox.innerHTML = '<img src="' + ev.target.result + '" style="max-height:200px;max-width:100%;object-fit:contain;border-radius:12px;">';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            previewBox.addEventListener('click', function () {
+                fileInput.click();
+            });
+        }
+    });
+</script>
+{% endblock %}

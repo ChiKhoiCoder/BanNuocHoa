@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="luxe-page-header">
+    <div class="container" data-aos="fade-up">
+        <h1>{{ category.name }}</h1>
+        <p>{{ category.description|default:"Khám phá bộ sưu tập hương thơm đặc sắc" }}</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5" data-aos="fade-up">
+        <h2 class="section-title mb-0">Sản phẩm tiêu biểu</h2>
+    </div>
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+            {% include 'products/product_card.html' %}
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Danh mục này không có sản phẩm nào</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Trước</a>
+            </li>
+            {% endif %}
+
+            {% for num in paginator.page_range %}
+            {% if num == page_obj.number %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Tiếp</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

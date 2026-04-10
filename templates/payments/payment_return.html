@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  {% if success %}
+    <div class="alert alert-success">Thanh toán thành công cho đơn hàng {{ order.order_number }}.</div>
+  {% else %}
+    <div class="alert alert-danger">Thanh toán thất bại cho đơn hàng {{ order.order_number }}.</div>
+  {% endif %}
+  <a href="/orders/" class="btn btn-primary">Quay về đơn hàng</a>
+</div>
+{% endblock %}

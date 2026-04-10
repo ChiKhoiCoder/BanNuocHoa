@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Hồ sơ cá nhân{% endblock %}
+
+{% block content %}
+<section class="luxe-page-header">
+    <div class="container" data-aos="fade-up">
+        <h1>Hồ sơ của bạn</h1>
+        <p>Quản lý tài khoản và thông tin cá nhân</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2" data-aos="fade-up">
+            <h2 class="section-title mb-4">Thông tin tài khoản</h2>
+
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
+                        type="button">
+                        Thông tin chung
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                        type="button">
+                        Thông tin chi tiết
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Thông tin chung -->
+                <div class="tab-pane fade show active" id="info" role="tabpanel">
+                    <form method="post" class="needs-validation">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label">Tên</label>
+                                {{ user_form.first_name }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_last_name" class="form-label">Họ</label>
+                                {{ user_form.last_name }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            {{ user_form.email }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </form>
+                </div>
+
+                <!-- Thông tin chi tiết -->
+                <div class="tab-pane fade" id="profile" role="tabpanel">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="id_avatar" class="form-label">Ảnh đại diện</label>
+                            {% if profile.avatar %}
+                            <div class="mb-2">
+                                <img src="{{ profile.avatar.url }}" alt="Avatar"
+                                    style="max-width: 200px; border-radius: 10px;">
+                            </div>
+                            {% endif %}
+                            {{ profile_form.avatar }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label">Số điện thoại</label>
+                            {{ profile_form.phone }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_date_of_birth" class="form-label">Ngày sinh</label>
+                            {{ profile_form.date_of_birth }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_address" class="form-label">Địa chỉ</label>
+                            {{ profile_form.address }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_city" class="form-label">Thành phố</label>
+                                {{ profile_form.city }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_state" class="form-label">Tỉnh/Hiệp</label>
+                                {{ profile_form.state }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_zip_code" class="form-label">Mã bưu chính</label>
+                            {{ profile_form.zip_code }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

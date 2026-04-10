@@ -1,0 +1,154 @@
+<!-- Sidebar Filters (Feature 15) -->
+<div class="filter-sidebar">
+    <form name="product_filters" id="filter-form" method="get" class="product-filter-form">
+        <h6 class="mb-3 fw-bold" style="font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Bộ lọc</h6>
+
+        <!-- Search -->
+        <div class="filter-group mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.72rem;">Tìm kiếm</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" style="font-size: 0.7rem;"></i></span>
+                <input type="text" name="query" value="{{ query }}" class="form-control border-start-0"
+                    placeholder="Tên, thương hiệu..." style="font-size: 0.75rem;">
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-group mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.72rem;">Danh mục</label>
+            <div class="filter-scroll-area">
+                {% for cat in categories %}
+                <div class="form-check">
+                    <input class="form-check-input category-checkbox" type="checkbox" name="category"
+                        value="{{ cat.id }}" id="cat{{ cat.id }}"
+                        {% if cat.id|stringformat:"s" in selected_cat_ids %}checked{% endif %}>
+                    <label class="form-check-label" for="cat{{ cat.id }}">
+                        {{ cat.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="filter-group mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.72rem;">Khoảng giá (₫)</label>
+            <div id="price-slider" class="mt-3 mb-4"></div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span id="min-price-display" class="small fw-bold text-primary">0₫</span>
+                <span id="max-price-display" class="small fw-bold text-primary">10.000.000₫</span>
+            </div>
+            <input type="hidden" name="min_price" id="min-price-input" value="{{ min_price|default:'' }}">
+            <input type="hidden" name="max_price" id="max-price-input" value="{{ max_price|default:'' }}">
+        </div>
+
+        <!-- Brand Filter -->
+        <div class="filter-group mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.72rem;">Thương hiệu</label>
+            <div class="filter-scroll-area">
+                {% for brand in brands %}
+                <div class="form-check">
+                    <input class="form-check-input brand-checkbox" type="checkbox" name="brand" value="{{ brand }}"
+                        id="brand{{ forloop.counter }}" {% if brand in selected_brand_names %}checked{% endif %}>
+                    <label class="form-check-label" for="brand{{ forloop.counter }}">
+                        {{ brand }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Scent Type Filter -->
+        <div class="filter-group mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.72rem;">Loại hương</label>
+            <div class="filter-scroll-area">
+                {% for scent in scent_types %}
+                <div class="form-check">
+                    <input class="form-check-input scent-checkbox" type="checkbox" name="scent_type" value="{{ scent }}"
+                        id="scent{{ forloop.counter }}" {% if scent in selected_scent_names %}checked{% endif %}>
+                    <label class="form-check-label" for="scent{{ forloop.counter }}">
+                        {{ scent }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sort (Visible in Sidebar for Mobile, hidden on Desktop if moved to top) -->
+        <div class="filter-group mb-4 d-lg-none">
+            <label class="form-label fw-bold">Sắp xếp</label>
+            <select name="sort" id="sidebar-sort-select" class="form-select form-select-sm">
+                <option value="">Mới nhất</option>
+                <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Giá thấp → cao</option>
+                <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Giá cao → thấp
+                </option>
+                <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Đánh giá cao</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-2 rounded-pill">Áp dụng</button>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary w-100 mt-2 rounded-pill">Xóa tất cả</a>
+    </form>
+</div>
+
+<style>
+    .filter-scroll-area {
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+
+    .filter-scroll-area::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .filter-scroll-area::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+    }
+
+    .filter-group label {
+        color: #1e293b;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-check-label {
+        font-size: 0.78rem;
+        color: #475569;
+        cursor: pointer;
+    }
+
+    .form-check-input:checked+.form-check-label {
+        color: #b45309;
+        font-weight: 600;
+    }
+
+    #price-slider.noUi-target {
+        background: #f1f5f9;
+        border: none;
+        box-shadow: none;
+        height: 4px;
+    }
+
+    #price-slider .noUi-connect {
+        background: #b45309;
+    }
+
+    #price-slider .noUi-handle {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #b45309;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        right: -9px;
+    }
+
+    #price-slider .noUi-handle:before,
+    #price-slider .noUi-handle:after {
+        display: none;
+    }
+</style>

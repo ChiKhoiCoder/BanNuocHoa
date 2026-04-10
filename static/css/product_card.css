@@ -1,0 +1,184 @@
+/* Product Card Luxe Enhancement */
+
+.product-luxe-card {
+    border-radius: 20px !important;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+}
+
+.product-luxe-card:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25) !important;
+    border-color: var(--accent-indigo);
+}
+
+.product-img-wrap {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--glass-bg);
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    min-height: 180px;
+}
+
+.product-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 0;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.product-luxe-card:hover .product-main-img {
+    transform: none;
+}
+
+/* Shine Effect */
+.product-img-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: 0.6s;
+    z-index: 2;
+}
+
+.product-luxe-card:hover .product-img-wrap::after {
+    left: 100%;
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 6px 15px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.badge-premium { background: var(--luxe-gradient); }
+.badge-hot { background: var(--accent-pink); }
+.badge-featured { background: var(--gold-gradient); }
+
+.product-body {
+    padding: 14px 18px 12px 18px;
+}
+
+.product-brand {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--vibrant-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 3px;
+}
+
+.product-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    line-height: 1.3;
+    color: var(--text-color);
+}
+
+.product-name-link {
+    color: inherit;
+    transition: var(--transition-smooth);
+}
+
+.product-luxe-card:hover .product-name-link {
+    color: var(--accent-indigo);
+}
+
+.price-main {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--primary-color);
+}
+
+.price-old {
+    font-size: 0.8rem;
+    text-decoration: line-through;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+/* Actions */
+.product-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.btn-add-to-cart {
+    flex: 1;
+    background: var(--vibrant-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
+.btn-add-to-cart:hover {
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
+}
+
+.btn-wishlist {
+    width: 44px;
+    height: 44px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-pink);
+    transition: var(--transition-smooth);
+}
+
+.btn-wishlist:hover {
+    background: var(--accent-pink);
+    color: white;
+}
+
+[data-theme="dark"] .product-luxe-card {
+    background: var(--glass-bg);
+}
+
+.product-luxe-card:hover {
+    background: var(--card-bg); /* Reset to base */
+    border-color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .product-luxe-card:hover {
+    background: rgba(20, 30, 50, 0.95); /* Deeper blue-ish black on hover */
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.3) !important;
+}
+
+.btn-add-to-cart {
+    transition: var(--transition-smooth), filter 0.3s ease;
+}
+
+.btn-add-to-cart:hover {
+    filter: saturate(1.5) brightness(1.2);
+    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.6);
+}

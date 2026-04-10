@@ -1,0 +1,306 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+
+{% block title %}Thống Kê Chi Tiết - Admin{% endblock %}
+{% block page_title %}Thống Kê Chi Tiết{% endblock %}
+
+{% block extra_css %}
+<style>
+    .chart-card {
+        background: var(--admin-card-bg) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--admin-card-border) !important;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .card-header {
+        background: var(--admin-table-header) !important;
+        border-bottom: 1px solid var(--admin-table-border) !important;
+        padding: 20px 25px !important;
+    }
+
+    .card-title {
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--admin-text) !important;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chart-container {
+        padding: 25px;
+        position: relative;
+    }
+
+    .table-luxe {
+        background: transparent !important;
+        color: var(--admin-text) !important;
+    }
+
+    .table-luxe thead th {
+        background: var(--admin-table-header) !important;
+        color: var(--admin-muted-text) !important;
+        border: none !important;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        padding: 18px 25px !important;
+    }
+
+    .table-luxe td {
+        border-bottom: 1px solid var(--admin-table-border) !important;
+        padding: 18px 25px !important;
+        vertical-align: middle;
+    }
+
+    .star-rating {
+        color: #b45309;
+        font-size: 1.1rem;
+    }
+
+    .badge-luxe {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid transparent;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="chart-card">
+            <div class="card-header">
+                <h5 class="card-title text-primary"><i class="fas fa-chart-area"></i> DOANH THU THEO THÁNG</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="monthlyRevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-7">
+        <div class="chart-card">
+            <div class="card-header">
+                <h5 class="card-title text-warning"><i class="fas fa-layer-group"></i> DOANH THU THEO DANH MỤC</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="categoryRevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="chart-card">
+            <div class="card-header">
+                <h5 class="card-title text-success"><i class="fas fa-shopping-bag"></i> TỶ LỆ ĐƠN HÀNG</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="orderStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="chart-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title text-warning"><i class="fas fa-crown"></i> SẢN PHẨM CAO CẤP NHẤT</h5>
+                <span class="text-admin-muted small">Xếp hạng dựa trên đánh giá của khách hàng</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-luxe mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">SẢN PHẨM</th>
+                                <th class="text-center" style="width: 20%;">SỐ ĐÁNH GIÁ</th>
+                                <th class="text-center" style="width: 20%;">ĐIỂM TRUNG BÌNH</th>
+                                <th class="text-end pe-5" style="width: 20%;">CẤP ĐỘ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_rated %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold text-admin-info">{{ product.name }}</div>
+                                    <small class="text-muted">{{ product.category.name|default:"Luxury Perfume" }}</small>
+                                </td>
+                                <td class="text-center">
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3">{{
+                                        product.review_count }} đánh giá</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="star-rating mb-1">
+                                        {% if product.avg_rating >= 4.5 %}
+                                        ★★★★★
+                                        {% elif product.avg_rating >= 3.5 %}
+                                        ★★★★☆
+                                        {% elif product.avg_rating >= 2.5 %}
+                                        ★★★☆☆
+                                        {% else %}
+                                        ★★☆☆☆
+                                        {% endif %}
+                                    </div>
+                                    <div class="fw-bold text-warning">{{ product.avg_rating|floatformat:1 }}/5.0</div>
+                                </td>
+                                <td class="text-end pe-5">
+                                    {% if product.avg_rating >= 4.5 %}
+                                    <span
+                                        class="badge-luxe bg-success bg-opacity-10 text-success border-success border-opacity-25">XUẤT
+                                        SẮC</span>
+                                    {% elif product.avg_rating >= 4 %}
+                                    <span
+                                        class="badge-luxe bg-info bg-opacity-10 text-info border-info border-opacity-25">RẤT
+                                        TỐT</span>
+                                    {% elif product.avg_rating >= 3 %}
+                                    <span
+                                        class="badge-luxe bg-warning bg-opacity-10 text-warning border-warning border-opacity-25">BÌNH
+                                        THƯỜNG</span>
+                                    {% else %}
+                                    <span
+                                        class="badge-luxe bg-danger bg-opacity-10 text-danger border-danger border-opacity-25">CẦN
+                                        CẢI THIỆN</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-5">
+                                    <i class="fas fa-comment-slash fa-3x mb-3 opacity-25"></i>
+                                    <p>Chưa có dữ liệu đánh giá sản phẩm</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Global Chart Defaults for Luxe Look
+        Chart.defaults.color = 'rgba(255, 255, 255, 0.5)';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.plugins.legend.labels.padding = 20;
+
+        // Monthly Revenue
+        const monthlyRevenueCtx = document.getElementById('monthlyRevenueChart').getContext('2d');
+        new Chart(monthlyRevenueCtx, {
+            type: 'line',
+            data: {
+                labels: {{ months_labels| safe }},
+        datasets: [{
+            label: 'Doanh Thu (VNĐ)',
+            data: {{ monthly_revenue| safe }},
+        borderColor: '#b45309',
+        backgroundColor: 'rgba(180, 83, 9, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#b45309',
+        pointBorderColor: 'rgba(255,255,255,0.5)',
+        pointHoverRadius: 6
+                }]
+            },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+        });
+
+    // Category Revenue
+    const categoryRevenueCtx = document.getElementById('categoryRevenueChart').getContext('2d');
+    new Chart(categoryRevenueCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ category_names| safe }},
+        datasets: [{
+            label: 'Doanh Thu',
+            data: {{ category_revenue| safe }},
+        backgroundColor: [
+            'rgba(180, 83, 9, 0.6)',
+            'rgba(59, 130, 246, 0.6)',
+            'rgba(139, 92, 246, 0.6)',
+            'rgba(16, 185, 129, 0.6)',
+            'rgba(239, 68, 68, 0.6)'
+        ],
+        borderRadius: 8
+                }]
+            },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+        });
+
+    // Order Status
+    const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+    new Chart(orderStatusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ status_labels| safe }},
+        datasets: [{
+            data: {{ status_counts| safe }},
+        backgroundColor: ['#f59e0b', '#3b82f6', '#8b5cf6', '#10b981', '#ef4444'],
+        borderWidth: 0,
+        hoverOffset: 20
+                }]
+            },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { usePointStyle: true, padding: 25 }
+            }
+        },
+        cutout: '70%',
+        radius: '85%'
+    }
+        });
+    });
+</script>
+{% endblock %}

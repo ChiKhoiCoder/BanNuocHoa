@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh mục{% endblock %}
+
+{% block content %}
+<section class="luxe-page-header">
+    <div class="container" data-aos="fade-up">
+        <h1>Danh mục</h1>
+        <p>Tìm kiếm hương thơm theo phong cách của bạn</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="section-title">Khám phá thế giới hương thơm</h2>
+        <div class="section-underline mx-auto"></div>
+    </div>
+
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+            <div class="card h-100 border-0 shadow-sm overflow-hidden rounded-4">
+                {% if category.image %}
+                <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}"
+                    style="height: 300px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top"
+                    style="height: 300px; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-flower1" style="font-size: 64px; color: white;"></i>
+                </div>
+                {% endif %}
+                <div class="card-body p-4 text-center">
+                    <h4 class="card-title fw-bold mb-3">{{ category.name }}</h4>
+                    <p class="card-text text-muted mb-4">{{ category.description|truncatewords:20 }}</p>
+                    <a href="{% url 'category_detail' category.id %}"
+                        class="btn btn-outline-primary rounded-pill px-4">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
