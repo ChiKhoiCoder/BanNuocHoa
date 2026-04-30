@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 {% for order in orders %}
-                <tr>
+                <tr style="cursor: pointer; transition: background-color 0.2s;" onclick="window.location.href='{% url 'order_detail' order.order_number %}'" class="order-row-hover">
                     <td><strong>{{ order.order_number }}</strong></td>
                     <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
                     <td>{{ order.final_price|floatformat:0 }} ₫</td>

@@ -9,18 +9,64 @@
 
 {% block content %}
 <section class="product-detail-hero">
-    <div class="container" data-aos="fade-up">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="bi bi-house-fill me-2"></i>Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Sản phẩm</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
-            </ol>
-        </nav>
+    <!-- Luxe Quote Section -->
+    <div class="luxe-quote-section">
+        <div class="container">
+            <div class="luxe-quote-content">
+                <i class="bi bi-quote luxe-quote-icon" style="font-size: 1.5rem; margin-bottom: 5px;"></i>
+                <div class="quote-rotator-container">
+                    <span class="luxe-quote-text active">"Nước hoa là tấm danh thiếp vô hình của tâm hồn."</span>
+                    <span class="luxe-quote-text">"Hương thơm là sự hoàn thiện cuối cùng của phong cách."</span>
+                    <span class="luxe-quote-text">"Một giọt hương, vạn lời yêu thương."</span>
+                    <span class="luxe-quote-text">"Hương thơm là trang sức vô hình nhưng ấn tượng nhất."</span>
+                </div>
+                <div class="luxe-quote-nav">
+                    <a href="{% url 'home' %}">Trang chủ</a> / <a href="{% url 'product_list' %}">Bộ sưu tập</a> / <span>{{ product.name }}</span>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
 
-<div class="container py-5">
+    <style>
+        .quote-rotator-container {
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+        }
+        .luxe-quote-text {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            text-align: center;
+        }
+        .luxe-quote-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            position: relative;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailQuotes = document.querySelectorAll('.luxe-quote-section .luxe-quote-text');
+            let detailIdx = 0;
+            if(detailQuotes.length > 0) {
+                setInterval(() => {
+                    detailQuotes[detailIdx].classList.remove('active');
+                    detailIdx = (detailIdx + 1) % detailQuotes.length;
+                    detailQuotes[detailIdx].classList.add('active');
+                }, 5000);
+            }
+        });
+    </script>
+
+    <div class="container py-5">
     <div class="row g-5">
         <!-- Product Image -->
         <div class="col-md-5" data-aos="fade-right">
@@ -100,18 +146,30 @@
 
             <!-- Add to Cart -->
             {% if user.is_authenticated and product.stock > 0 %}
-            <form method="post" action="{% url 'add_to_cart' product.id %}">
-                {% csrf_token %}
-                <div class="quantity-selector">
-                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-add-to-cart mb-3">
-                    <i class="bi bi-cart-plus me-2"></i>THÊM VÀO GIỎ
+            <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+                <form method="post" action="{% url 'add_to_cart' product.id %}" class="ajax-cart-form m-0">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control" style="width: 80px; border-radius: 12px;">
+                        <button type="submit" class="btn btn-add-to-cart m-0" style="white-space: nowrap;">
+                            <i class="bi bi-cart-plus me-2"></i>THÊM VÀO GIỎ
+                        </button>
+                    </div>
+                </form>
+
+                <form method="post" action="{% url 'add_to_cart' product.id %}" class="m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="buy_now" value="1">
+                    <button type="submit" class="btn btn-buy-now-luxe" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 12px 30px; border-radius: 15px; font-weight: 800; box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);">
+                        <i class="bi bi-lightning-charge-fill me-2"></i>MUA NGAY
+                    </button>
+                </form>
+
+                <button class="btn btn-wishlist m-0">
+                    <i class="bi bi-heart"></i>
                 </button>
-            </form>
-            <button class="btn btn-wishlist">
-                <i class="bi bi-heart me-2"></i>YÊU THÍCH
-            </button>
+            </div>
             {% elif product.stock == 0 %}
             <div style="background: #ffeaa7; padding: 20px; border-radius: 15px; text-align: center;">
                 <i class="bi bi-exclamation-circle" style="font-size: 2rem; color: #d68910;"></i>

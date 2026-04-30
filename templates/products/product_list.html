@@ -7,13 +7,13 @@
 <section class="sale-header-luxe">
     <div class="container" data-aos="zoom-in">
         <span class="badge bg-white text-danger px-3 py-2 rounded-pill mb-3 fw-bold">MEGA SALE EVENT</span>
-        <h1 class="display-3 fw-bold mb-3">LỄ HỘI MÙI HƯƠNG</h1>
-        <p class="lead mb-4">Giảm giá chấn động lên đến 50% cho toàn bộ sưu tập cao cấp. Chỉ diễn ra trong 48h!</p>
-        <div class="countdown-timer d-flex justify-content-center mb-4">
-            <div class="mx-2"><span>01</span><small class="d-block mt-1">NGÀY</small></div>
-            <div class="mx-2"><span>14</span><small class="d-block mt-1">GIỜ</small></div>
-            <div class="mx-2"><span>45</span><small class="d-block mt-1">PHÚT</small></div>
-            <div class="mx-2"><span>32</span><small class="d-block mt-1">GIÂY</small></div>
+        <h1 class="display-2 fw-900 mb-3 text-white shadow-text">LỄ HỘI MÙI HƯƠNG</h1>
+        <p class="lead mb-4 text-white opacity-9">Giảm giá chấn động lên đến <span class="fw-800 text-warning">50%</span> cho toàn bộ sưu tập cao cấp.</p>
+        <div class="countdown-timer-luxe d-flex justify-content-center mb-4">
+            <div class="timer-box"><span>01</span><small>NGÀY</small></div>
+            <div class="timer-box"><span>14</span><small>GIỜ</small></div>
+            <div class="timer-box"><span>45</span><small>PHÚT</small></div>
+            <div class="timer-box"><span>32</span><small>GIÂY</small></div>
         </div>
     </div>
 </section>
@@ -44,22 +44,71 @@
     </div>
 </div>
 {% endif %}
-<!-- Breadcrumb Navigation -->
-<div class="container">
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Trang chủ</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{% if request.GET.sale == '1' %}Khuyến mại{% else
-                %}Sản phẩm{% endif %}</li>
-        </ol>
-    </nav>
-</div>
+    <!-- Luxe Quote Section -->
+    <div class="luxe-quote-section">
+        <div class="container">
+            <div class="luxe-quote-content">
+                <div class="quote-rotator-container">
+                    <span class="luxe-quote-text active">"Mùi hương là ký ức vô hình, mở ra những cánh cửa của tâm hồn."</span>
+                    <span class="luxe-quote-text">"Nước hoa là tấm danh thiếp vô hình của tâm hồn bạn."</span>
+                    <span class="luxe-quote-text">"Mùi hương kể một câu chuyện mà ngôn từ không thể diễn tả."</span>
+                    <span class="luxe-quote-text">"Sự sang trọng bắt đầu từ hương thơm quyến rũ nhất."</span>
+                </div>
+                <div class="luxe-quote-nav" style="display: none;">
+                    <a href="{% url 'home' %}">Trang chủ</a> / <span>{% if request.GET.sale == '1' %}Khuyến mại{% else %}Bộ sưu tập{% endif %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="container-fluid px-4 py-4 product-list-page">
-    <div class="d-flex justify-content-between align-items-center mb-3" data-aos="fade-up">
-        <h2 class="section-title mb-0">Bộ sưu tập</h2>
-        <a href="?sale=1" class="btn btn-primary rounded-pill">
-            <i class="bi bi-percent me-2"></i>Ưu đãi đặc biệt
+    <style>
+        .quote-rotator-container {
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+        }
+        .luxe-quote-text {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem !important; /* Make font size smaller so the section is shorter */
+        }
+        .luxe-quote-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            position: relative;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const listQuotes = document.querySelectorAll('.luxe-quote-section .luxe-quote-text');
+            let listIdx = 0;
+            if(listQuotes.length > 0) {
+                setInterval(() => {
+                    listQuotes[listIdx].classList.remove('active');
+                    listIdx = (listIdx + 1) % listQuotes.length;
+                    listQuotes[listIdx].classList.add('active');
+                }, 5000);
+            }
+        });
+    </script>
+
+    <div class="container-fluid px-4 py-4 product-list-page">
+    <div class="luxe-collection-header d-flex justify-content-between align-items-end mb-4" data-aos="fade-up">
+        <div>
+            <h2 class="section-title-luxe mb-2">KHÁM PHÁ <span class="text-gradient-green-orange">HƯƠNG THƠM ĐẲNG CẤP</span></h2>
+            <p class="text-muted mb-0">Khám phá thế giới hương thơm tinh tế qua từng nốt nhạc</p>
+        </div>
+        <a href="?sale=1" class="btn-luxe-primary">
+            <i class="bi bi-percent me-2"></i>ƯU ĐÃI ĐẶC BIỆT
         </a>
     </div>
 
@@ -69,9 +118,9 @@
     {% endif %}
 
     <!-- Search & Filter -->
-    <div class="d-flex gap-3 mb-4 align-items-start">
+    <div class="d-flex gap-4 mb-4 align-items-start">
         {% if request.GET.sale != '1' %}
-        <div style="width: 155px; min-width: 155px; flex-shrink: 0;" data-aos="fade-right">
+        <div style="width: 320px; min-width: 320px; flex-shrink: 0; margin-top: -20px;" data-aos="fade-right">
             {% include 'components/sidebar_filters.html' %}
         </div>
         {% endif %}
@@ -79,52 +128,7 @@
         <!-- Products -->
         <div class="flex-grow-1 product-list-container" data-aos="fade-left">
 
-            <!-- Sorting & Tools -->
-            <div
-                class="d-flex flex-wrap justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm border">
-                <div class="active-filters d-flex flex-wrap gap-2 align-items-center">
-                    <span class="text-muted small me-2"><i class="bi bi-sliders me-1"></i>Bộ lọc:</span>
-                    {% if query %}
-                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">Tìm: {{ query }}</span>
-                    {% endif %}
-                    {% if selected_tag %}
-                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">Thẻ: {{ selected_tag }}</span>
-                    {% endif %}
-                    {% if not query %}
-                    {% if not selected_tag %}
-                    {% if not selected_categories %}
-                    {% if not selected_brands %}
-                    {% if not selected_scents %}
-                    <span class="text-muted small italic">Tất cả sản phẩm</span>
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
-                    <!-- Add more badges for categories, brands if needed -->
-                </div>
 
-                <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
-                    <label class="small text-muted text-nowrap d-none d-sm-block">Sắp xếp theo:</label>
-                    <form action="" method="get" id="sort-form" class="d-flex">
-                        {% for key, value in request.GET.items %}
-                        {% if key != 'sort' and key != 'page' %}
-                        <input type="hidden" name="{{ key }}" value="{{ value }}">
-                        {% endif %}
-                        {% endfor %}
-                        <select name="sort" class="form-select form-select-sm border-0 bg-light rounded-pill px-3"
-                            onchange="this.form.submit()">
-                            <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Mới nhất</option>
-                            <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Giá: Thấp
-                                đến Cao</option>
-                            <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Giá: Cao
-                                đến Thấp</option>
-                            <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Đánh giá tốt nhất
-                            </option>
-                        </select>
-                    </form>
-                </div>
-            </div>
             <div class="row g-3" id="products-container">
                 {% for product in products %}
                 <div class="col-6 col-md-4 col-lg-3" data-aos="zoom-in">

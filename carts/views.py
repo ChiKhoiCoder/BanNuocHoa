@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
@@ -37,11 +39,27 @@ def add_to_cart(request, product_id):
     if not created:
         cart_item.quantity += quantity
         if cart_item.quantity > product.stock:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Không đủ hàng.'}, status=400)
             messages.error(request, 'Không đủ hàng.')
             return redirect('product_detail', pk=product_id)
         cart_item.save()
     
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True, 
+            'message': f'Đã thêm {product.name} vào giỏ hàng.',
+            'cart_item_id': cart_item.id
+        })
+
     messages.success(request, f'Đã thêm {product.name} vào giỏ hàng.')
+    
+    if request.POST.get('buy_now') == '1':
+        return redirect(f"{reverse('checkout')}?items={cart_item.id}")
+
+    next_url = request.POST.get('next')
+    if next_url:
+        return redirect(next_url)
     return redirect('view_cart')
 
 

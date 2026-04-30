@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,53 @@
     <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVJkEZSMUkrQ6usKu8zIvxUsvyNrs34Ks51qrHQc0LrkYZPlS7zcRIQVSSwnqF7atqikUKbwxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVJkEZSMUkrQ6usKu8zIvxUsvyNrs34Ks51qrHQc0LrkYZPlS7zcRIQVSSwnqF7atqikUKbwxA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/enhanced-navbar.css">
-    <link rel="stylesheet" href="/static/css/blobs.css">
+    <link rel="stylesheet" href="/static/css/base.css?v=2">
+    <link rel="stylesheet" href="/static/css/enhanced-navbar.css?v=2">
+    <link rel="stylesheet" href="/static/css/blobs.css?v=2">
     <link rel="stylesheet" href="/static/css/product_card.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+    <link rel="stylesheet" href="/static/css/filter.css">
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <style>
+        /* Force Remove All Scrollbars */
+        * {
+            scrollbar-width: none !important;
+            /* Firefox */
+            -ms-overflow-style: none !important;
+            /* IE/Edge */
+        }
+
+        ::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
+
+        html,
+        body {
+            overflow-x: hidden !important;
+            scrollbar-width: none !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            scroll-behavior: smooth;
+        }
+
+        /* Performance Optimization: GPU Acceleration */
+        * {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
-<body data-aos-easing="ease-in-out" data-aos-duration="800" data-aos-delay="100" class="page-fade-in">
+
+<body data-aos-easing="ease-in-out" data-aos-duration="800" data-aos-delay="100">
     <!-- Animated Blobs Background -->
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -23,28 +62,26 @@
         <div class="blob blob-3"></div>
         <div class="blob blob-4"></div>
     </div>
+    <div class="perfume-particles" id="particle-container"></div>
+
+    <!-- Page Content Wrapper to prevent fixed position inheritance issues -->
+
     <!-- Header -->
-    <header>
+    <header class="fixed-top shadow-sm" style="background: white; z-index: 10000;">
         <!-- Top Orange Bar -->
-        <div class="top-bar">
-            <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="top-bar-text">
-                        <i class="bi bi-star-fill"></i> Miễn Phí Vận Chuyển Cho Đơn Hàng Từ 1.000.000đ
-                    </span>
-                    <span>
-                        <i class="bi bi-gift"></i> Ưu Đãi 10% Cho Lần Đầu Mua Sắm - Dùng Mã: FIRSTBUY10
-                    </span>
-                </div>
-            </div>
+        <div class="top-bar d-flex justify-content-between align-items-center">
+            <span class="top-bar-text"><i class="bi bi-flower1 me-1"></i>Miễn Phí Vận Chuyển Cho Đơn Hàng Từ
+                1.000.000đ</span>
+            <span class="top-bar-text"><i class="bi bi-gift me-1"></i>Ưu Đãi 10% Cho Lần Đầu Mua Sắm - Dùng Mã:
+                FIRSTBUY10</span>
         </div>
 
         <!-- Main White Navigation Bar -->
         <nav class="navbar navbar-expand-xl navbar-light navbar-main">
             <div class="container-fluid px-lg-5">
-                <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}" style="font-size: 1.25rem; letter-spacing: 1.5px; font-family: 'Playfair Display', serif;">
-                    <i class="bi bi-flower1 me-2" style="font-size: 1.3rem; background: linear-gradient(135deg, #ff6b35 0%, #f093fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                    <span style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #ff6b35 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;">PERFUME</span>
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <i class="bi bi-flower1 luxe-logo-accent me-2"></i>
+                    <span>PERFU<span class="luxe-logo-accent">ME</span></span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -53,37 +90,54 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto gap-1 gap-xl-3">
                         <li class="nav-item">
-                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'home' %}active-page{% endif %}" href="{% url 'home' %}">
+                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'home' %}active-page{% endif %}"
+                                href="/" style="position: relative; z-index: 10001; pointer-events: auto;">
                                 <i class="bi bi-house-door ms-1"></i> Trang chủ
                             </a>
                         </li>
 
                         <li class="nav-item dropdown dropdown-hover">
-                            <a class="nav-link luxe-nav-link dropdown-toggle d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'product_list' %}active-page{% endif %}" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown">
+                            <a class="nav-link luxe-nav-link dropdown-toggle d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'product_list' %}active-page{% endif %}"
+                                href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="bi bi-gem ms-1"></i> Sản phẩm
                             </a>
-                            <ul class="dropdown-menu border-0 shadow-lg" aria-labelledby="productsDropdown" style="border-radius: 16px; min-width: 200px; padding: 10px;">
-                                <li><a class="dropdown-item" href="{% url 'product_list' %}"><i class="bi bi-box-seam me-2 text-primary"></i>Tất cả sản phẩm</a></li>
-                                <li><a class="dropdown-item" href="{% url 'product_list' %}?sale=1"><i class="bi bi-lightning text-danger me-2"></i>Khuyến mãi</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                            <ul class="dropdown-menu border-0 shadow-lg" aria-labelledby="productsDropdown"
+                                style="border-radius: 16px; min-width: 200px; padding: 10px;">
+                                <li><a class="dropdown-item" href="{% url 'product_list' %}"><i
+                                            class="bi bi-box-seam me-2 text-primary"></i>Tất cả sản phẩm</a></li>
+                                <li><a class="dropdown-item" href="{% url 'product_list' %}?sale=1"><i
+                                            class="bi bi-lightning text-danger me-2"></i>Khuyến mãi</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 {% if categories %}
-                                    {% for c in categories|slice:":6" %}
-                                        <li><a class="dropdown-item" href="{% url 'category_detail' c.pk %}"><i class="bi bi-tag text-muted me-2"></i>{{ c.name }}</a></li>
-                                    {% endfor %}
+                                {% for c in categories|slice:":6" %}
+                                <li><a class="dropdown-item" href="{% url 'category_detail' c.pk %}"><i
+                                            class="bi bi-tag text-muted me-2"></i>{{ c.name }}</a></li>
+                                {% endfor %}
                                 {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'category_list' %}">Danh mục</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category_list' %}">Danh mục</a></li>
                                 {% endif %}
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'category_list' %}active-page{% endif %}" href="{% url 'category_list' %}">
+                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'category_list' %}active-page{% endif %}"
+                                href="{% url 'category_list' %}">
                                 <i class="bi bi-grid ms-1"></i> Danh mục
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1" href="{% url 'consultation' %}">
+                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'news_list' %}active-page{% endif %}"
+                                href="{% url 'news_list' %}">
+                                <i class="bi bi-newspaper ms-1"></i> Tin tức
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1"
+                                href="{% url 'consultation' %}">
                                 <i class="bi bi-chat-dots ms-1"></i> Tư vấn
                             </a>
                         </li>
@@ -93,80 +147,119 @@
                                 <i class="bi bi-info-circle ms-1"></i> Về chúng tôi
                             </a>
                         </li>
-                        
+
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1" href="{% url 'order_list' %}" title="Theo dõi đơn hàng">
+                            <a class="nav-link luxe-nav-link d-flex align-items-center gap-1"
+                                href="{% url 'order_list' %}" title="Theo dõi đơn hàng">
                                 <i class="bi bi-receipt ms-1"></i> Đơn hàng
                             </a>
                         </li>
-                        
-                        <!-- Giỏ hàng (chuyển sang cạnh Đơn hàng) -->
-                        <li class="nav-item dropdown" id="mini-cart-container">
-                            <a class="nav-link luxe-nav-link position-relative hide-dropdown-arrow d-flex align-items-center gap-1" href="#" id="miniCartToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-cart3 ms-1"></i> Giỏ hàng
-                                {% if cart_items_count and cart_items_count > 0 %}
-                                    <span class="badge rounded-pill bg-danger border border-light" style="font-size: 0.65rem; padding: 3px 6px; box-shadow: 0 2px 5px rgba(255,0,0,0.3); transform: translateY(-2px);">
-                                        {{ cart_items_count }}
-                                    </span>
-                                {% endif %}
-                            </a>
-                            <div class="dropdown-menu shadow-lg p-0" aria-labelledby="miniCartToggle" style="min-width:340px; border: none; border-radius: 20px; overflow: hidden; margin-top: 15px;">
-                                <div style="background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--border-color);">
-                                    <div class="p-3 border-bottom text-center">
-                                        <h6 class="mb-0 fw-bold">Giỏ hàng của bạn</h6>
-                                    </div>
-                                    <div id="mini-cart-contents" class="p-2">
-                                        {% include 'carts/mini_cart_contents.html' %}
-                                    </div>
-                                    <div class="p-3 bg-light text-center d-grid gap-2 border-top">
-                                        <a href="{% url 'view_cart' %}" class="btn btn-outline-dark rounded-pill fw-bold">Xem toàn bộ giỏ</a>
-                                        <a href="{% url 'checkout' %}" class="btn rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">Thanh toán ngay</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        {% endif %}
+
                     </ul>
 
                     <div class="d-flex align-items-center ms-auto mt-3 mt-xl-0">
                         <!-- Unified Action Dock -->
-                        <div class="action-dock d-flex align-items-center gap-2 shadow-sm" style="background: var(--card-bg); border-radius: 40px; padding: 6px 8px; border: 1px solid var(--border-color); backdrop-filter: blur(10px);">
-                            
+                        <div class="action-dock d-flex align-items-center gap-2 shadow-sm"
+                            style="background: var(--card-bg); border-radius: 40px; padding: 6px 8px; border: 1px solid var(--border-color); backdrop-filter: blur(10px);">
+
+                            <!-- Cart Icon -->
+                            <div class="dropdown" id="mini-cart-container">
+                                <a href="#" class="icon-btn-luxe position-relative" id="miniCartToggle" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false" title="Giỏ hàng"
+                                    style="text-decoration: none;">
+                                    <i class="bi bi-cart3"></i>
+                                    {% if cart_items_count and cart_items_count > 0 %}
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light"
+                                        style="font-size: 0.55rem; padding: 2px 5px;">
+                                        {{ cart_items_count }}
+                                    </span>
+                                    {% endif %}
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end shadow-lg p-0"
+                                    aria-labelledby="miniCartToggle"
+                                    style="min-width:340px; border: none; border-radius: 20px; overflow: hidden; margin-top: 15px; z-index: 1050;">
+                                    <div
+                                        style="background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--border-color);">
+                                        <div class="p-3 border-bottom text-center">
+                                            <h6 class="mb-0 fw-bold">Giỏ hàng của bạn</h6>
+                                        </div>
+                                        <div id="mini-cart-contents" class="p-2">
+                                            {% include 'carts/mini_cart_contents.html' %}
+                                        </div>
+                                        <div class="p-3 bg-light text-center d-grid gap-2 border-top">
+                                            <a href="{% url 'view_cart' %}"
+                                                class="btn btn-outline-dark rounded-pill fw-bold">Xem toàn bộ giỏ</a>
+                                            <a href="{% url 'checkout' %}" class="btn rounded-pill text-white fw-bold"
+                                                style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">Thanh
+                                                toán ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Theme Toggle -->
-                            <a href="#" class="icon-btn-luxe theme-toggle" id="theme-toggle" title="Sáng/Tối" style="text-decoration: none;">
+                            <a href="#" class="icon-btn-luxe theme-toggle ms-1" id="theme-toggle" title="Sáng/Tối"
+                                style="text-decoration: none;">
                                 <i class="bi bi-moon-stars"></i>
                             </a>
-                            
-                            
+
+
                             {% if user.is_authenticated %}
-                                <!-- Divider -->
-                                <div style="width: 1px; height: 20px; background: var(--border-color); opacity: 0.5;"></div>
-                                
-                                <div class="dropdown">
-                                    <a class="nav-user-pill d-flex align-items-center gap-2 hide-dropdown-arrow ms-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" style="text-decoration: none; border-radius: 30px; padding: 3px 12px 3px 3px; background: var(--secondary-bg); transition: all 0.3s ease;">
-                                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white shadow-sm" style="width: 30px; height: 30px; background: linear-gradient(135deg, #8B5CF6, #EC4899);">
-                                            <i class="bi bi-person-fill" style="font-size: 0.9rem;"></i>
-                                        </div>
-                                        <span class="fw-bold" style="font-size: 0.85rem; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-color);">{{ user.username }}</span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="userDropdown" style="border-radius: 16px; margin-top: 15px; padding: 10px; min-width: 220px;">
-                                        <li><a class="dropdown-item py-2" href="{% url 'profile' %}"><i class="bi bi-person-badge text-primary me-2"></i> Hồ sơ cá nhân</a></li>
-                                        <li><a class="dropdown-item py-2" href="{% url 'change_password' %}"><i class="bi bi-shield-lock text-success me-2"></i> Đổi mật khẩu</a></li>
-                                        <li><a class="dropdown-item py-2" href="{% url 'order_list' %}"><i class="bi bi-bag-check text-info me-2"></i> Lịch sử mua hàng</a></li>
-                                        {% if user_profile and user_profile.is_admin %}
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item py-2 text-warning fw-bold" href="/admin/"><i class="bi bi-gear-fill me-2"></i> Bảng điều khiển Admin</a></li>
+                            <!-- Divider -->
+                            <div style="width: 1px; height: 20px; background: var(--border-color); opacity: 0.5;"></div>
+
+                            <div class="dropdown">
+                                <a class="nav-user-pill d-flex align-items-center gap-2 hide-dropdown-arrow ms-1"
+                                    href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                                    style="text-decoration: none; border-radius: 30px; padding: 3px 12px 3px 3px; background: var(--secondary-bg); transition: all 0.3s ease;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white shadow-sm"
+                                        style="width: 30px; height: 30px; background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+                                        <i class="bi bi-person-fill" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="user-info">
+                                        {% if user.is_authenticated %}
+                                        <span>{{ user.username }}</span>
+                                        {% else %}
+                                        <span>Khách</span>
                                         {% endif %}
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item py-2 text-danger fw-bold confirm-action" href="{% url 'logout' %}" data-message="Bạn có chắc chắn muốn đăng xuất không?"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất an toàn</a></li>
-                                    </ul>
-                                </div>
-                            {% else %}
-                                <!-- Divider -->
-                                <div style="width: 1px; height: 20px; background: var(--border-color); opacity: 0.5;"></div>
-                                
-                                <a class="btn-glimmer text-white px-4 ms-1" href="{% url 'auth' %}" style="text-decoration: none; border-radius: 30px; font-size: 0.85rem; padding: 8px 0; display: inline-block; text-align: center;">
-                                    ĐĂNG NHẬP
+                                    </div>
                                 </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0"
+                                    aria-labelledby="userDropdown"
+                                    style="border-radius: 16px; margin-top: 15px; padding: 10px; min-width: 220px;">
+                                    <li><a class="dropdown-item py-2" href="{% url 'profile' %}"><i
+                                                class="bi bi-person-badge text-primary me-2"></i> Hồ sơ cá nhân</a></li>
+                                    <li><a class="dropdown-item py-2" href="{% url 'change_password' %}"><i
+                                                class="bi bi-shield-lock text-success me-2"></i> Đổi mật khẩu</a></li>
+                                    <li><a class="dropdown-item py-2" href="{% url 'order_list' %}"><i
+                                                class="bi bi-bag-check text-info me-2"></i> Lịch sử mua hàng</a></li>
+                                    {% if user_profile and user_profile.is_admin %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item py-2 text-warning fw-bold" href="/admin/"><i
+                                                class="bi bi-gear-fill me-2"></i> Bảng điều khiển Admin</a></li>
+                                    {% endif %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item py-2 text-danger fw-bold confirm-action"
+                                            href="{% url 'logout' %}"
+                                            data-message="Bạn có chắc chắn muốn đăng xuất không?"><i
+                                                class="bi bi-box-arrow-right me-2"></i> Đăng xuất an toàn</a></li>
+                                </ul>
+                            </div>
+                            {% else %}
+                            <!-- Divider -->
+                            <div style="width: 1px; height: 20px; background: var(--border-color); opacity: 0.5;"></div>
+
+                            <a class="btn-glimmer text-white ms-1 fw-bold" href="{% url 'auth' %}"
+                                style="text-decoration: none; border-radius: 30px; font-size: 0.85rem; padding: 8px 20px; display: inline-block; text-align: center; white-space: nowrap;">
+                                ĐĂNG NHẬP
+                            </a>
                             {% endif %}
                         </div>
                     </div>
@@ -174,77 +267,77 @@
             </div>
         </nav>
 
-        <!-- Blue Category Bar -->
-        <div class="category-bar">
-            <div class="container-fluid">
-                <div class="d-flex justify-content-start align-items-center overflow-auto">
-                    <a href="{% url 'news_list' %}" class="cat-item">
-                        <i class="bi bi-newspaper"></i> Tin tức
-                    </a>
-                    <a href="{% url 'product_list' %}" class="cat-item">
-                        <i class="bi bi-star"></i> Sản phẩm nổi bật
-                    </a>
-                    <a href="{% url 'product_list' %}?sale=1" class="cat-item">
-                        <i class="bi bi-percent"></i> Flash Sale
-                    </a>
-                    <a href="{% url 'consultation' %}" class="cat-item">
-                        <i class="bi bi-telephone"></i> Hỗ trợ khách hàng
-                    </a>
-                    <a href="{% url 'contact' %}" class="cat-item">
-                        <i class="bi bi-envelope"></i> Liên hệ
-                    </a>
-                </div>
-            </div>
-        </div>
+
 
         </div>
     </header>
 
+    <!-- Page Content Wrapper to prevent fixed position inheritance issues -->
+    <div id="page-wrapper" class="page-fade-in">
+
     <!-- Messages -->
     {% if messages %}
-        <div class="container mt-3">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show alert-message" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show alert-message" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+        {% endfor %}
+    </div>
     {% endif %}
 
     <!-- Main Content -->
-    <main>
+    <main style="padding-top: 115px;">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Premium Footer -->
+    <footer class="luxe-footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h5 style="color: var(--primary-color);">Về chúng tôi</h5>
-                    <p>Cung cấp những chai nước hoa chính hãng từ các nhãn hàng nổi tiếng thế giới.</p>
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand mb-4">
+                        <span class="luxe-brand">PERFU<span style="color: #f97316;">ME</span></span>
+                    </div>
+                    <p class="footer-desc">Nâng tầm phong cách cá nhân với những hương thơm tinh tế nhất từ các thương
+                        hiệu danh tiếng toàn cầu. Chúng tôi cam kết chất lượng và sự hài lòng tuyệt đối.</p>
+                    <div class="footer-socials d-flex gap-3">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-tiktok"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <h5 style="color: var(--primary-color);">Liên kết nhanh</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'home' %}" class="text-white-50">Trang chủ</a></li>
-                        <li><a href="{% url 'product_list' %}" class="text-white-50">Sản phẩm</a></li>
-                        <li><a href="{% url 'category_list' %}" class="text-white-50">Danh mục</a></li>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Khám phá</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Trang chủ</a></li>
+                        <li><a href="{% url 'product_list' %}">Sản phẩm</a></li>
+                        <li><a href="{% url 'category_list' %}">Danh mục</a></li>
+                        <li><a href="{% url 'news_list' %}">Tin tức</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <h5 style="color: var(--primary-color);">Liên hệ</h5>
-                    <p class="text-white-50">
-                        Email: info@perfumeshop.com<br>
-                        Điện thoại: (+84) 123-456-789<br>
-                        Địa chỉ: Hà Nội, Việt Nam
-                    </p>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Hỗ trợ</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Chính sách bảo hành</a></li>
+                        <li><a href="#">Vận chuyển</a></li>
+                        <li><a href="#">Đổi trả</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="footer-title">Bản tin</h5>
+                    <p class="footer-desc">Đăng ký nhận thông báo về bộ sưu tập mới nhất và ưu đãi đặc quyền.</p>
+                    <div class="footer-newsletter">
+                        <input type="email" placeholder="Email của bạn...">
+                        <button><i class="bi bi-send-fill"></i></button>
+                    </div>
                 </div>
             </div>
-            <hr style="border-color: #555;">
-            <div class="text-center text-white-50">
-                <p>&copy; 2024 Perfume Shop. All rights reserved.</p>
+            <div class="footer-bottom mt-5 pt-4 border-top text-center">
+                <p class="mb-0">&copy; 2024 <span style="color: #059669; font-weight: 700;">Perfume Shop</span>. Thiết
+                    kế bởi sự đam mê và hương thơm. ✨</p>
             </div>
         </div>
     </footer>
@@ -261,36 +354,411 @@
             </div>
         </div>
     </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="/static/js/elite-confirm.js"></script>
-    <script src="/static/js/site.js"></script>
-    <script src="/static/js/ui-enhancements.js"></script>
-        <!-- Feature scripts (each feature in its own file) -->
-        <script src="/static/js/features/mini_cart_dropdown.js"></script>
-        <script src="/static/js/features/ajax_cart_update.js"></script>
-        <script src="/static/js/features/checkout_progress.js"></script>
-        <script src="/static/js/features/address_autocomplete.js"></script>
-        <script src="/static/js/features/search_suggestions.js"></script>
-        <script src="/static/js/features/sidebar_filters.js"></script>
-        <script src="/static/js/features/tag_filter.js"></script>
-        <script src="/static/js/features/scroll_animations.js"></script>
-        <script src="/static/js/features/back_to_top.js"></script>
-        <script src="/static/js/features/sticky_header.js"></script>
-        <script src="/static/js/features/breadcrumb.js"></script>
-        <script src="/static/js/features/share_buttons.js"></script>
-        <script src="/static/js/features/view_count.js"></script>
-        <script src="/static/js/features/popup_notifications.js"></script>
-        <script src="/static/js/features/admin_charts.js"></script>
-        <script src="/static/js/features/drag_drop_upload.js"></script>
-        <script src="/static/js/features/quiz.js"></script>
-        <script src="/static/js/features/chatbot_ui.js"></script>
-        <script src="/static/js/features/radar_chart.js"></script>
-        <script src="/static/js/features/pwa_register.js"></script>
-        <script src="/static/js/features/three_d_viewer.js"></script>
-        <script src="/static/js/effects.js"></script>
+    <script src="/static/js/elite-confirm.js" defer></script>
+    <div style="display: none;">{% csrf_token %}</div>
+    <script src="/static/js/site.js" defer></script>
+    <script src="/static/js/ui-enhancements.js?v=3" defer></script>
+    <!-- Feature scripts (each feature in its own file) -->
+    <script src="/static/js/features/mini_cart_dropdown.js" defer></script>
+    <script src="/static/js/features/ajax_cart_update.js" defer></script>
+    <script src="/static/js/features/checkout_progress.js" defer></script>
+    <script src="/static/js/features/address_autocomplete.js" defer></script>
+    <script src="/static/js/features/search_suggestions.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+    <script src="/static/js/features/sidebar_filters.js" defer></script>
+    <script src="/static/js/features/tag_filter.js" defer></script>
+    <script src="/static/js/features/scroll_animations.js" defer></script>
+    <script src="/static/js/features/back_to_top.js" defer></script>
+    <script src="/static/js/features/sticky_header.js" defer></script>
+    <script src="/static/js/features/breadcrumb.js" defer></script>
+    <script src="/static/js/features/share_buttons.js" defer></script>
+    <script src="/static/js/features/view_count.js" defer></script>
+    <script src="/static/js/features/popup_notifications.js" defer></script>
+    <script src="/static/js/features/admin_charts.js" defer></script>
+    <script src="/static/js/features/drag_drop_upload.js" defer></script>
+    <script src="/static/js/features/quiz.js" defer></script>
+    <script src="/static/js/features/chatbot_ui.js" defer></script>
+    <script src="/static/js/features/radar_chart.js" defer></script>
+    <script src="/static/js/features/pwa_register.js" defer></script>
+    <script src="/static/js/features/three_d_viewer.js" defer></script>
+    <script src="/static/js/effects.js" defer></script>
     {% block extra_js %}{% endblock %}
+    <!-- ================= CHATBOT ================= -->
+    <!-- ================= PREMIUM CHATBOT ================= -->
+    <style>
+        /* Nút mở */
+        #chat-toggle {
+            position: fixed !important;
+            bottom: 25px !important;
+            right: 25px !important;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0ea5e9, #f97316);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000001; /* Above almost everything */
+            transition: all 0.3s ease;
+        }
+
+        #chat-toggle:hover {
+            transform: scale(1.1) rotate(8deg);
+        }
+
+        /* Chat box */
+        #chat-box {
+            position: fixed !important;
+            bottom: 100px !important;
+            right: 25px !important;
+            width: 380px;
+            height: 560px;
+            background: #ffffff;
+            display: none;
+            flex-direction: column;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            z-index: 1000001;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        #chat-header {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Messages */
+        #chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Bubble chung */
+        .msg {
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 75%;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: slideUp 0.25s ease;
+        }
+
+        /* Animation tin nhắn */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* User */
+        .user {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        /* Bot */
+        .bot {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        /* Input */
+        #chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        #chat-input input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid #cbd5f5;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #chat-input input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 5px rgba(14, 165, 233, 0.5);
+        }
+
+        /* Nút gửi */
+        #chat-input button {
+            margin-left: 10px;
+            width: 45px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #0ea5e9, #f97316);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #chat-input button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Scroll đẹp */
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(#0ea5e9, #f97316);
+            border-radius: 10px;
+        }
+    </style>
+
+    <!-- Toggle -->
+    <div id="chat-toggle">💬</div>
+
+    <!-- Chat box -->
+    <div id="chat-box">
+        <div id="chat-header">
+            🤖 Perfume Assistant
+            <div>
+                <button onclick="clearChat()" style="background:none;border:none;color:white;">🗑</button>
+                <button onclick="toggleChat()" style="background:none;border:none;color:white;">✖</button>
+            </div>
+        </div>
+
+        <div id="chat-messages"></div>
+
+        <div id="chat-input">
+            <input id="input" placeholder="Nhập câu hỏi...">
+            <button id="sendBtn">➤</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const toggle = document.getElementById("chat-toggle");
+            const box = document.getElementById("chat-box");
+            const input = document.getElementById("input");
+            const messages = document.getElementById("chat-messages");
+            const sendBtn = document.getElementById("sendBtn");
+
+            // Toggle
+            window.toggleChat = function () {
+                box.style.display = (box.style.display === "flex") ? "none" : "flex";
+            };
+            toggle.onclick = toggleChat;
+
+            // Load history
+            const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
+
+            if (history.length === 0) {
+                addMessage("Chào bạn! Tôi có thể giúp gì? ✨", "bot");
+            } else {
+                history.forEach(m => renderMessage(m.text, m.type));
+            }
+
+            function renderMessage(text, type) {
+                const msg = document.createElement("div");
+                msg.className = "msg " + type;
+                msg.innerHTML = text;
+                messages.appendChild(msg);
+            }
+
+            function addMessage(text, type) {
+                renderMessage(text, type);
+                messages.scrollTop = messages.scrollHeight;
+
+                const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
+                history.push({ text, type });
+                localStorage.setItem("chatHistory", JSON.stringify(history));
+            }
+
+            async function send() {
+                const q = input.value.trim();
+                if (!q) return;
+
+                addMessage(q, "user");
+                input.value = "";
+
+                const loading = document.createElement("div");
+                loading.className = "msg bot";
+                loading.innerText = "⏳ Đang suy nghĩ...";
+                messages.appendChild(loading);
+
+                try {
+                    const res = await fetch("http://127.0.0.1:9001/chat?q=" + encodeURIComponent(q));
+                    const data = await res.json();
+
+                    loading.remove();
+                    addMessage(data.answer || "Không có phản hồi", "bot");
+
+                } catch {
+                    loading.remove();
+                    addMessage("❌ Không kết nối server", "bot");
+                }
+            }
+
+            sendBtn.onclick = send;
+            input.addEventListener("keydown", e => {
+                if (e.key === "Enter") send();
+            });
+
+        });
+
+        // Clear history
+        function clearChat() {
+            localStorage.removeItem("chatHistory");
+            document.getElementById("chat-messages").innerHTML = "";
+        }
+    </script>
+    <!-- ================= END CHATBOT ================= -->
+    <!-- Toast Notification Container -->
+    <div id="luxe-toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10001; pointer-events: none;"></div>
+
+    <script>
+        // --- GLOBAL TOAST SYSTEM ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('luxe-toast-container');
+            const toast = document.createElement('div');
+            
+            const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill';
+            const bgColor = type === 'success' ? 'rgba(5, 150, 105, 0.95)' : 'rgba(220, 38, 38, 0.95)';
+            
+            toast.className = 'luxe-toast';
+            toast.style.cssText = `
+                background: ${bgColor};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 15px;
+                margin-bottom: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-weight: 600;
+                transform: translateX(120%);
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                pointer-events: auto;
+                min-width: 280px;
+                border-left: 5px solid rgba(255,255,255,0.3);
+            `;
+            
+            toast.innerHTML = `
+                <i class="bi ${icon}" style="font-size: 1.2rem;"></i>
+                <div style="flex-grow: 1;">${message}</div>
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; opacity: 0.7; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateX(0)';
+            });
+            
+            // Auto remove
+            setTimeout(() => {
+                toast.style.transform = 'translateX(120%)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+
+        // --- GLOBAL AJAX CART HANDLER ---
+        document.addEventListener('submit', function(e) {
+            if (e.target && e.target.classList.contains('ajax-cart-form')) {
+                e.preventDefault();
+                const form = e.target;
+                const url = form.getAttribute('action');
+                const formData = new FormData(form);
+                
+                // Show loading state on button
+                const btn = form.querySelector('button[type="submit"]');
+                const originalHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(res => {
+                    if (!res.ok) throw res;
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message);
+                        // Optional: update cart counter in header if it exists
+                    } else {
+                        showToast(data.message || 'Có lỗi xảy ra', 'error');
+                    }
+                })
+                .catch(async err => {
+                    let msg = 'Có lỗi xảy ra khi thêm vào giỏ hàng';
+                    try {
+                        const data = await err.json();
+                        msg = data.message || msg;
+                    } catch(e) {}
+                    showToast(msg, 'error');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>

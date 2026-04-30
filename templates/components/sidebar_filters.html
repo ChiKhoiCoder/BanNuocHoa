@@ -1,24 +1,177 @@
+{% load static %}
 <!-- Sidebar Filters (Feature 15) -->
-<div class="filter-sidebar">
+
+<style>
+    /* Force Bright Theme for Sidebar */
+    .filter-card-luxe {
+        background: #ffffff !important;
+        color: #1a1a1a !important;
+        border-radius: 30px !important;
+        padding: 20px 25px 35px !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important;
+        border: 1px solid rgba(0,0,0,0.05) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .filter-card-luxe * {
+        color: inherit !important;
+    }
+
+    .filter-card-luxe h6 {
+        color: #1a1a1a !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+    }
+
+    .filter-group {
+        background: #ffffff !important;
+        border-radius: 20px !important;
+        padding: 20px !important;
+        margin-bottom: 25px !important;
+        border: 1px solid #f0f0f0 !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02) !important;
+    }
+
+    .filter-scroll-area {
+        background: #ffffff !important;
+        padding: 10px !important;
+        border-radius: 15px !important;
+        border: 1px solid #f8f9fa !important;
+        max-height: 250px !important;
+        overflow-y: auto !important;
+        /* Hide scrollbar for this area */
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    .filter-scroll-area::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+    }
+
+    .filter-group .form-label {
+        color: #1a1a1a !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    .clear-all-link {
+        color: #ec4899 !important;
+        background: rgba(236,72,153,0.1) !important;
+        padding: 4px 12px !important;
+        border-radius: 20px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .luxe-check {
+        margin-bottom: 10px !important;
+        padding: 8px 12px !important;
+        border-radius: 10px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .luxe-check:hover {
+        background: #f8f9fa !important;
+        transform: translateX(5px) !important;
+    }
+
+    .luxe-check .form-check-label {
+        color: #444 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Colorful Hover for Categories */
+    .luxe-check:nth-child(odd):hover .form-check-label { color: #ec4899 !important; }
+    .luxe-check:nth-child(even):hover .form-check-label { color: #6366f1 !important; }
+    .luxe-check:nth-child(3n):hover .form-check-label { color: #10b981 !important; }
+
+    .search-input-luxe {
+        background: white !important;
+        border: 2px solid #eee !important;
+        border-radius: 12px !important;
+    }
+
+    .search-input-luxe .form-control {
+        background: white !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Colorful Icons */
+    .filter-group:nth-of-type(1) i { color: #6366f1 !important; }
+    .filter-group:nth-of-type(2) i { color: #ec4899 !important; }
+    .filter-group:nth-of-type(3) i { color: #d4a574 !important; }
+    .filter-group:nth-of-type(4) i { color: #10b981 !important; }
+
+    /* Fix for the screenshot's dark look */
+    [data-theme="dark"] .filter-card-luxe {
+        background: #ffffff !important;
+    }
+
+    [data-theme="dark"] .filter-card-luxe * {
+        color: #1a1a1a !important; /* Keep text dark in sidebar because it stays white */
+    }
+
+    /* Global Theme Contrast Improvements */
+    [data-theme="dark"] h1, 
+    [data-theme="dark"] h2, 
+    [data-theme="dark"] h3, 
+    [data-theme="dark"] h4, 
+    [data-theme="dark"] h5, 
+    [data-theme="dark"] h6,
+    [data-theme="dark"] p,
+    [data-theme="dark"] span {
+        color: #f8fafc; /* Bright text for dark mode */
+    }
+
+    [data-theme="light"] h1, 
+    [data-theme="light"] h2, 
+    [data-theme="light"] h3, 
+    [data-theme="light"] h4, 
+    [data-theme="light"] h5, 
+    [data-theme="light"] h6,
+    [data-theme="light"] p,
+    [data-theme="light"] span {
+        color: #0f172a; /* Dark text for light mode */
+    }
+</style>
+
+<div class="filter-sidebar filter-card-luxe">
     <form name="product_filters" id="filter-form" method="get" class="product-filter-form">
-        <h6 class="mb-3 fw-bold" style="font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Bộ lọc</h6>
+        <div class="filter-header-main">
+            <h6 class="mb-0"><i class="bi bi-sliders2-vertical me-2"></i>BỘ LỌC TÌM KIẾM</h6>
+            <a href="{% url 'product_list' %}" class="clear-all-link">Xóa hết</a>
+        </div>
 
         <!-- Search -->
-        <div class="filter-group mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.72rem;">Tìm kiếm</label>
-            <div class="input-group input-group-sm">
-                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" style="font-size: 0.7rem;"></i></span>
-                <input type="text" name="query" value="{{ query }}" class="form-control border-start-0"
-                    placeholder="Tên, thương hiệu..." style="font-size: 0.75rem;">
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-search me-2"></i>Tìm kiếm</label>
+            <div class="input-group search-input-luxe">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" name="query" value="{{ query }}" class="form-control"
+                    placeholder="Tên, thương hiệu..." autocomplete="off">
             </div>
+        </div>
+        
+        <!-- Sort Filter (Integrated into sidebar) -->
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-sort-down me-2"></i>Sắp xếp theo</label>
+            <select name="sort" id="sidebar-sort-select" class="form-select luxe-select border-0 bg-light rounded-pill px-3" onchange="this.form.submit()">
+                <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Mới nhất</option>
+                <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Giá: Thấp đến Cao</option>
+                <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Giá: Cao đến Thấp</option>
+                <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Đánh giá tốt nhất</option>
+            </select>
         </div>
 
         <!-- Category Filter -->
-        <div class="filter-group mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.72rem;">Danh mục</label>
-            <div class="filter-scroll-area">
+        {% if categories %}
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-grid-3x3-gap me-2"></i>Danh mục</label>
+            <div class="filter-scroll-area luxe-scrollbar">
                 {% for cat in categories %}
-                <div class="form-check">
+                <div class="form-check luxe-check">
                     <input class="form-check-input category-checkbox" type="checkbox" name="category"
                         value="{{ cat.id }}" id="cat{{ cat.id }}"
                         {% if cat.id|stringformat:"s" in selected_cat_ids %}checked{% endif %}>
@@ -29,25 +182,28 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
 
         <!-- Price Range Filter -->
-        <div class="filter-group mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.72rem;">Khoảng giá (₫)</label>
-            <div id="price-slider" class="mt-3 mb-4"></div>
-            <div class="d-flex justify-content-between align-items-center">
-                <span id="min-price-display" class="small fw-bold text-primary">0₫</span>
-                <span id="max-price-display" class="small fw-bold text-primary">10.000.000₫</span>
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-tags me-2"></i>Khoảng giá</label>
+            <div id="price-slider" class="mt-3 luxe-slider"></div>
+            <div class="d-flex justify-content-between align-items-center mt-3 price-display-wrapper">
+                <span id="min-price-display">0₫</span>
+                <span class="price-separator"></span>
+                <span id="max-price-display">10.000.000₫</span>
             </div>
             <input type="hidden" name="min_price" id="min-price-input" value="{{ min_price|default:'' }}">
             <input type="hidden" name="max_price" id="max-price-input" value="{{ max_price|default:'' }}">
         </div>
 
         <!-- Brand Filter -->
-        <div class="filter-group mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.72rem;">Thương hiệu</label>
-            <div class="filter-scroll-area">
+        {% if brands %}
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-patch-check me-2"></i>Thương hiệu</label>
+            <div class="filter-scroll-area luxe-scrollbar">
                 {% for brand in brands %}
-                <div class="form-check">
+                <div class="form-check luxe-check">
                     <input class="form-check-input brand-checkbox" type="checkbox" name="brand" value="{{ brand }}"
                         id="brand{{ forloop.counter }}" {% if brand in selected_brand_names %}checked{% endif %}>
                     <label class="form-check-label" for="brand{{ forloop.counter }}">
@@ -57,13 +213,15 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
 
         <!-- Scent Type Filter -->
-        <div class="filter-group mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.72rem;">Loại hương</label>
-            <div class="filter-scroll-area">
+        {% if scent_types %}
+        <div class="filter-group">
+            <label class="form-label"><i class="bi bi-wind me-2"></i>Loại hương</label>
+            <div class="filter-scroll-area luxe-scrollbar">
                 {% for scent in scent_types %}
-                <div class="form-check">
+                <div class="form-check luxe-check">
                     <input class="form-check-input scent-checkbox" type="checkbox" name="scent_type" value="{{ scent }}"
                         id="scent{{ forloop.counter }}" {% if scent in selected_scent_names %}checked{% endif %}>
                     <label class="form-check-label" for="scent{{ forloop.counter }}">
@@ -73,82 +231,15 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
 
-        <!-- Sort (Visible in Sidebar for Mobile, hidden on Desktop if moved to top) -->
-        <div class="filter-group mb-4 d-lg-none">
-            <label class="form-label fw-bold">Sắp xếp</label>
-            <select name="sort" id="sidebar-sort-select" class="form-select form-select-sm">
-                <option value="">Mới nhất</option>
-                <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Giá thấp → cao</option>
-                <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Giá cao → thấp
-                </option>
-                <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Đánh giá cao</option>
-            </select>
+
+
+        <!-- Action Buttons -->
+        <div class="filter-actions mt-4">
+            <button type="submit" class="btn btn-primary w-100 apply-btn-luxe">
+                <i class="bi bi-check2-circle me-2"></i>ÁP DỤNG BỘ LỌC
+            </button>
         </div>
-
-        <button type="submit" class="btn btn-primary w-100 mt-2 rounded-pill">Áp dụng</button>
-        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary w-100 mt-2 rounded-pill">Xóa tất cả</a>
     </form>
 </div>
-
-<style>
-    .filter-scroll-area {
-        max-height: 200px;
-        overflow-y: auto;
-        padding-right: 5px;
-    }
-
-    .filter-scroll-area::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .filter-scroll-area::-webkit-scrollbar-thumb {
-        background: #e2e8f0;
-        border-radius: 10px;
-    }
-
-    .filter-group label {
-        color: #1e293b;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .form-check-label {
-        font-size: 0.78rem;
-        color: #475569;
-        cursor: pointer;
-    }
-
-    .form-check-input:checked+.form-check-label {
-        color: #b45309;
-        font-weight: 600;
-    }
-
-    #price-slider.noUi-target {
-        background: #f1f5f9;
-        border: none;
-        box-shadow: none;
-        height: 4px;
-    }
-
-    #price-slider .noUi-connect {
-        background: #b45309;
-    }
-
-    #price-slider .noUi-handle {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background: #fff;
-        border: 2px solid #b45309;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        right: -9px;
-    }
-
-    #price-slider .noUi-handle:before,
-    #price-slider .noUi-handle:after {
-        display: none;
-    }
-</style>

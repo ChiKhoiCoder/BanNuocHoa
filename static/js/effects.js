@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
-    initMouseFollower();
-    initSparkleTrail();
+    // initMouseFollower();
+    // initSparkleTrail();
     initMagneticElements();
     initTextReveal();
     // initCard3DTilt();

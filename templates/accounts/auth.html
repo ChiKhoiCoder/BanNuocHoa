@@ -8,23 +8,122 @@
       overflow-x: hidden;
   }
   .auth-page-wrapper {
-      height: calc(100vh - 80px);
+      min-height: calc(100vh - 80px);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg-color);
-      padding: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(212, 165, 116, 0.1) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.1) 0%, transparent 40%),
+                  linear-gradient(-45deg, #f0fdf4, #ffffff, #fff7ed, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientBG 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      padding: 60px 0;
       margin: 0; 
       width: 100%;
       overflow: hidden;
+      position: relative;
+  }
+
+  @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
   }
   
-  .auth-container-luxe {
+  /* Floating Particles */
+  .auth-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      pointer-events: none;
+      z-index: 0;
+  }
+
+  .particle {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      opacity: 0.2;
+      filter: blur(1px) drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+      animation: float 15s infinite linear;
+      z-index: 0;
+      transition: all 0.5s ease;
+  }
+
+  @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      33% { transform: translate(120px, -60px) rotate(120deg) scale(1.1); }
+      66% { transform: translate(-80px, 180px) rotate(240deg) scale(0.9); }
+      100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+  }
+
+  .p1 { top: 5%; left: 5%; animation-duration: 18s; width: 140px; height: 140px; }
+  .p2 { top: 55%; left: 88%; animation-duration: 22s; width: 110px; height: 110px; animation-delay: -3s; }
+  .p3 { top: 75%; left: 12%; animation-duration: 16s; width: 100px; height: 100px; animation-delay: -8s; }
+  .p4 { top: 15%; left: 78%; animation-duration: 25s; width: 130px; height: 130px; animation-delay: -12s; }
+  .p5 { top: 40%; left: 2%; animation-duration: 20s; width: 90px; height: 90px; animation-delay: -5s; opacity: 0.15; }
+  .p6 { top: 85%; left: 70%; animation-duration: 30s; width: 150px; height: 150px; animation-delay: -15s; opacity: 0.1; }
+
+  /* Petal Effect */
+  .petal {
+      position: absolute;
+      background: linear-gradient(to bottom right, #fecaca, #fbcfe8);
+      border-radius: 150% 0 150% 0;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+      animation: petalFall 10s linear infinite;
+  }
+
+  @keyframes petalFall {
+      0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
+  }
+
+  .auth-container-luxe {
+      width: 95%;
+      max-width: 1100px;
+      height: auto;
+      min-height: 440px;
       display: flex;
       flex-direction: row;
-      background: var(--dark-color);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.12), 
+                  0 0 0 1px rgba(16, 185, 129, 0.1);
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      animation: containerReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .auth-container-luxe::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: skewX(-20deg);
+      animation: glassScan 8s infinite 2s;
+      z-index: 10;
+      pointer-events: none;
+  }
+
+  @keyframes glassScan {
+      0% { left: -150%; }
+      30% { left: 150%; }
+      100% { left: 150%; }
+  }
+
+  @keyframes containerReveal {
+      0% { opacity: 0; transform: translateY(40px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
   }
   
   .auth-hero-pane {
@@ -44,49 +143,97 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 15s ease;
-      animation: slowZoom 20s infinite alternate;
+      animation: ultraZoom 30s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  @keyframes slowZoom {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
+  @keyframes ultraZoom {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.2) rotate(2deg); }
   }
 
   .auth-hero-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(20,0,40,0.3) 0%, rgba(255,100,150,0.1) 100%);
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.5) 0%, rgba(234, 88, 12, 0.3) 100%);
       z-index: 1;
-      pointer-events: none;
+      mix-blend-mode: multiply;
   }
 
   .auth-hero-content {
       position: absolute;
-      bottom: 15%;
-      left: 10%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 2;
       color: white;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-      max-width: 80%;
+      width: 90%;
+      text-align: center;
+      animation: zoomInReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+
+  @keyframes zoomInReveal {
+      from { transform: translate(-50%, -40%) scale(0.9); opacity: 0; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+
   .auth-hero-content h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 4rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      letter-spacing: 2px;
-      background: var(--vibrant-gradient);
+      font-size: 5.5rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 12px;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .quote-container {
+      position: relative;
+      width: 100%;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .rotating-quote {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      background: linear-gradient(to right, #fbbf24, #fff, #fbbf24, #fff, #fbbf24);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      display: inline-block;
-      text-shadow: none;
+      animation: shineGradient 4s linear infinite;
   }
+
+  .rotating-quote.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+  }
+
+  @keyframes shineGradient {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+  }
+
   .auth-hero-content p {
-      font-size: 1.25rem;
-      font-weight: 300;
-      line-height: 1.6;
-      opacity: 0.95;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #fbbf24;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 30px;
+      text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
   }
   
   .auth-form-pane {
@@ -94,203 +241,146 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 1.5rem 2rem;
       position: relative;
-      background: var(--bg-color);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      background: white;
       z-index: 5;
-  }
-
-  /* Animated background behind the form */
-  .auth-form-pane::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle at center, rgba(168,85,247,0.05) 0%, transparent 40%),
-                  radial-gradient(circle at 80% 20%, rgba(236,72,153,0.05) 0%, transparent 40%);
-      animation: rotateBg 30s linear infinite;
-      z-index: 0;
-      pointer-events: none;
-  }
-  
-  @keyframes rotateBg {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
   }
 
   .glass-auth-card {
       width: 100%;
-      max-width: 440px;
-      /* background: var(--glass-bg); */
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(15px) saturate(180%);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+      max-width: 420px;
+      background: transparent;
       position: relative;
       z-index: 1;
-      transition: all 0.4s ease;
-  }
-  
-  .glass-auth-card:hover {
-      box-shadow: 0 25px 60px rgba(0,0,0,0.1);
-      border-color: var(--primary-color);
-  }
-
-  [data-theme="dark"] .glass-auth-card {
-      background: rgba(15, 23, 42, 0.5);
-      border-color: rgba(255,255,255,0.1);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
   }
   
   .auth-tabs {
       display: flex;
-      margin-bottom: 30px;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 1px;
+      margin-bottom: 40px;
+      background: #f8fafc;
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,0.03);
   }
   
   .auth-tab-btn {
       flex: 1;
       background: none;
       border: none;
-      padding: 10px 0;
+      padding: 12px 0;
       color: var(--muted);
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      transition: all 0.3s ease;
+      letter-spacing: 2px;
+      border-radius: 15px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .auth-tab-btn.active {
-      color: var(--primary-color);
+      background: white;
+      color: #059669;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.1);
   }
   
-  .auth-tab-btn::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 3px;
-      border-radius: 3px 3px 0 0;
-      background: var(--vibrant-gradient);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .auth-tab-btn.active::after {
-      width: 100%;
-  }
-  
-  /* Input Fields */
+  /* Input Fields Enhanced */
   .luxe-input-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       position: relative;
   }
   
   .luxe-input {
       width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--border-color);
-      padding: 6px 0;
-      font-size: 0.95rem;
+      background: #f8fafc;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      padding: 15px 20px;
+      padding-left: 50px;
+      font-size: 1rem;
       color: var(--text-color);
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .luxe-input:focus {
-      border-bottom-color: transparent;
-  }
-  
-  .luxe-input-highlight {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: var(--vibrant-gradient);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateX(-50%);
-  }
-  
-  .luxe-input:focus ~ .luxe-input-highlight {
-      width: 100%;
+      background: white;
+      border-color: #059669;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+      transform: scale(1.01);
   }
   
   .luxe-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 5px;
-      display: block;
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.2rem;
+      pointer-events: none;
       transition: all 0.3s ease;
   }
-  
-  .luxe-input:focus ~ .luxe-label {
-      color: var(--primary-color);
-      transform: translateY(-2px);
-  }
 
-  /* Fancy Submit Button */
+  .luxe-input:focus ~ .luxe-label,
+  .luxe-input:not(:placeholder-shown) ~ .luxe-label {
+      color: #059669;
+  }
+  
+  /* Fancy Submit Button - NEON GREEN/ORANGE */
   .btn-glimmer {
-      background: var(--vibrant-gradient);
+      background: linear-gradient(135deg, #059669 0%, #ea580c 100%);
       color: white;
       border: none;
-      border-radius: 30px;
+      border-radius: 18px;
       padding: 12px;
       font-size: 1rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       width: 100%;
       position: relative;
       overflow: hidden;
-      transition: all 0.4s ease;
-      box-shadow: 0 10px 20px rgba(168,85,247,0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 15px 35px rgba(5, 150, 105, 0.3);
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 10px;
   }
 
-  [data-theme="dark"] .btn-glimmer {
-      color: white !important;
-  }
-
-  .btn-glimmer::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: all 0.6s ease;
-  }
-  
   .btn-glimmer:hover {
       transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 15px 30px rgba(168,85,247,0.5);
-      color: white !important;
+      box-shadow: 0 20px 45px rgba(234, 88, 12, 0.4);
+      letter-spacing: 6px;
+      filter: brightness(1.1);
   }
   
-  .btn-glimmer:hover::before {
-      left: 100%;
+  .btn-glimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      transition: all 0.6s ease;
+      opacity: 0;
+  }
+
+  .btn-glimmer:hover::after {
+      opacity: 1;
+      transform: translate(25%, 25%);
   }
   
   .social-login-text {
       position: relative;
       text-align: center;
-      margin: 30px 0 20px;
+      margin: 20px 0 15px;
   }
   .social-login-text span {
-      background: var(--bg-color);
-      padding: 0 15px;
-      color: var(--muted);
+      background: white;
+      padding: 0 20px;
+      color: #94a3b8;
       font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       position: relative;
       z-index: 1;
   }
@@ -301,44 +391,63 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: var(--border-color);
+      background: #e2e8f0;
       z-index: 0;
   }
   
   .social-btns {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
   }
   .btn-social {
       width: 50px;
       height: 50px;
-      border-radius: 50%;
+      border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--border-color);
-      color: var(--text-color);
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-      background: transparent;
+      border: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 1.4rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #f8fafc;
   }
   .btn-social:hover {
-      background: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
-      transform: translateY(-3px);
+      background: white;
+      color: #059669;
+      border-color: #059669;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
   }
 
-  /* Override dark mode for some elements */
-  [data-theme="dark"] .auth-hero-content h2 {
-      text-shadow: 0 0 20px rgba(168,85,247,0.5);
+  [data-theme="dark"] .auth-container-luxe {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(34, 197, 94, 0.2);
   }
+  [data-theme="dark"] .auth-form-pane { background: transparent; }
+  [data-theme="dark"] .auth-tabs { background: rgba(0,0,0,0.2); }
+  [data-theme="dark"] .auth-tab-btn.active { background: #1e293b; color: #22c55e; }
+  [data-theme="dark"] .luxe-input { background: rgba(0,0,0,0.2); color: white; }
+  [data-theme="dark"] .social-login-text span { background: #0f172a; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="auth-page-wrapper">
+    <!-- Floating Decorative Elements -->
+    <div class="auth-particles">
+        <img src="/static/images/perfume_particle_1.png" class="particle p1" alt="deco">
+        <img src="/static/images/perfume_particle_2.png" class="particle p2" alt="deco">
+        <img src="/static/images/perfume_particle_1.png" class="particle p3" alt="deco">
+        <img src="/static/images/perfume_particle_2.png" class="particle p4" alt="deco">
+        <img src="/static/images/perfume_particle_1.png" class="particle p5" alt="deco">
+        <img src="/static/images/perfume_particle_2.png" class="particle p6" alt="deco">
+        
+        <!-- Rose Petals -->
+        <div id="petal-container"></div>
+    </div>
+
     <div class="auth-container-luxe">
         
         <!-- Left Side: Hero Image -->
@@ -346,21 +455,30 @@
             <img src="/static/images/auth_hero.png" alt="Luxury Perfume">
             <div class="auth-hero-overlay"></div>
             <div class="auth-hero-content">
-                <h2>Tinh Hoa<br>Hương Thơm</h2>
-                <p>Khám phá thế giới nước hoa đẳng cấp, nơi mỗi giọt hương đều kể một câu chuyện riêng biệt và đánh thức mọi giác quan của bạn.</p>
+                <h2>
+                    <span style="font-size: 1.5rem; letter-spacing: 8px; color: white; opacity: 0.8; margin-bottom: 10px;">LUXURY EXPERIENCE</span>
+                    <div class="quote-container">
+                        <div class="rotating-quote active">TINH HOA HƯƠNG THƠM</div>
+                        <div class="rotating-quote">QUYẾN RŨ & ĐẲNG CẤP</div>
+                        <div class="rotating-quote">KÝ ỨC TRONG TỪNG GIỌT</div>
+                        <div class="rotating-quote">TẤM DANH THIẾP TÂM HỒN</div>
+                    </div>
+                </h2>
+                <p>PERFUME SHOP PREMIERE</p>
             </div>
         </div>
 
-        <!-- Right Side: Glassmorphism Form -->
+        <!-- Right Side: Enhanced Form -->
         <div class="auth-form-pane">
             <div class="glass-auth-card">
                 
                 <div class="text-center mb-3">
-                    <h3 class="font-serif fw-bold" style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 2px;">PERFUME SHOP</h3>
-                    <p class="text-muted" style="font-size: 0.85rem;">Chào mừng bạn trở lại với không gian mua sắm tinh tế.</p>
+                    <h3 class="font-serif fw-bold" style="background: linear-gradient(135deg, #059669 0%, #ea580c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.2rem; margin-bottom: 5px; letter-spacing: 8px;">PERFUME SHOP</h3>
+                    <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #059669, #ea580c); margin: 0 auto 12px; border-radius: 10px;"></div>
+                    <p class="text-muted" style="font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">Không Gian Mua Sắm Thượng Lưu</p>
                 </div>
 
-                <div class="auth-tabs mb-3">
+                <div class="auth-tabs mb-4">
                     <button class="auth-tab-btn active" onclick="switchTab('login')" id="btn-login">ĐĂNG NHẬP</button>
                     <button class="auth-tab-btn" onclick="switchTab('register')" id="btn-register">ĐĂNG KÝ</button>
                 </div>
@@ -372,29 +490,29 @@
                         <input type="hidden" name="action" value="login" />
                         
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-person me-1"></i> Tên người dùng</label>
-                            <input type="text" name="username" class="luxe-input" required placeholder="Tên đăng nhập của bạn">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="text" name="username" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-person"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Tên đăng nhập</div>
                         </div>
 
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-shield-lock me-1"></i> Mật khẩu</label>
-                            <input type="password" name="password" class="luxe-input" required placeholder="Nhập mật khẩu">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="password" name="password" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-shield-lock"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Mật khẩu</div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+                        <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="rememberMe">
-                                <label class="form-check-label text-muted" for="rememberMe" style="font-size: 14px;">Ghi nhớ đăng nhập</label>
+                                <label class="form-check-label text-muted" for="rememberMe" style="font-size: 14px;">Ghi nhớ</label>
                             </div>
-                            <a href="#" class="text-muted" style="font-size: 14px; text-decoration: underline; transition: color 0.3s;">Quên mật khẩu?</a>
+                            <a href="#" class="text-muted" style="font-size: 14px; text-decoration: none; border-bottom: 1px dashed #cbd5e1;">Quên mật khẩu?</a>
                         </div>
 
-                        <button class="btn-glimmer" type="submit">ĐĂNG NHẬP <i class="bi bi-box-arrow-in-right ms-2"></i></button>
+                        <button class="btn-glimmer" type="submit">VÀO CỬA HÀNG <i class="bi bi-arrow-right ms-2"></i></button>
                         
                         <div class="social-login-text">
-                            <span>Hoặc tiếp tục với</span>
+                            <span>HOẶC TIẾP TỤC VỚI</span>
                         </div>
                         <div class="social-btns">
                             <button type="button" class="btn-social"><i class="fab fa-google"></i></button>
@@ -411,31 +529,31 @@
                         <input type="hidden" name="action" value="register" />
 
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-person me-1"></i> Tên người dùng</label>
-                            <input type="text" name="username" class="luxe-input" required placeholder="Chọn một cái tên hiển thị">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="text" name="username" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-person"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Tên người dùng</div>
                         </div>
 
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-envelope me-1"></i> Email</label>
-                            <input type="email" name="email" class="luxe-input" required placeholder="đia-chi@example.com">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="email" name="email" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-envelope"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Địa chỉ Email</div>
                         </div>
 
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-key me-1"></i> Mật khẩu</label>
-                            <input type="password" name="password1" class="luxe-input" required placeholder="Tạo mật khẩu mạnh">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="password" name="password1" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-key"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Mật khẩu</div>
                         </div>
 
                         <div class="luxe-input-group">
-                            <label class="luxe-label"><i class="bi bi-check2-all me-1"></i> Xác nhận mật khẩu</label>
-                            <input type="password" name="password2" class="luxe-input" required placeholder="Nhập lại mật khẩu">
-                            <div class="luxe-input-highlight"></div>
+                            <input type="password" name="password2" class="luxe-input" required placeholder=" ">
+                            <label class="luxe-label"><i class="bi bi-check2-all"></i></label>
+                            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none;">Xác nhận lại</div>
                         </div>
 
-                        <button class="btn-glimmer" type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); margin-top: 15px;">
-                            ĐĂNG KÝ TRẢI NGHIỆM <i class="bi bi-person-plus ms-2"></i>
+                        <button class="btn-glimmer" type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            BẮT ĐẦU TRẢI NGHIỆM <i class="bi bi-stars ms-2"></i>
                         </button>
                     </form>
                 </div>
@@ -449,17 +567,61 @@
 {% block extra_js %}
 <script>
     function switchTab(tab) {
+        const loginContainer = document.getElementById('login-form-container');
+        const registerContainer = document.getElementById('register-form-container');
+        const btnLogin = document.getElementById('btn-login');
+        const btnRegister = document.getElementById('btn-register');
+
         if(tab === 'login') {
-            document.getElementById('login-form-container').style.display = 'block';
-            document.getElementById('register-form-container').style.display = 'none';
-            document.getElementById('btn-login').classList.add('active');
-            document.getElementById('btn-register').classList.remove('active');
+            loginContainer.style.display = 'block';
+            registerContainer.style.display = 'none';
+            btnLogin.classList.add('active');
+            btnRegister.classList.remove('active');
         } else {
-            document.getElementById('login-form-container').style.display = 'none';
-            document.getElementById('register-form-container').style.display = 'block';
-            document.getElementById('btn-login').classList.remove('active');
-            document.getElementById('btn-register').classList.add('active');
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+            btnLogin.classList.remove('active');
+            btnRegister.classList.add('active');
         }
     }
+
+    // Dynamic Text Rotator
+    document.addEventListener('DOMContentLoaded', function() {
+        const quotes = document.querySelectorAll('.rotating-quote');
+        let currentIndex = 0;
+
+        function rotateQuotes() {
+            quotes[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % quotes.length;
+            quotes[currentIndex].classList.add('active');
+        }
+
+        setInterval(rotateQuotes, 4000);
+    });
+
+    // Petal Generator
+    function createPetal() {
+        const container = document.getElementById('petal-container');
+        if(!container) return;
+        
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        
+        const size = Math.random() * 15 + 10 + 'px';
+        petal.style.width = size;
+        petal.style.height = size;
+        
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = Math.random() * 5 + 7 + 's';
+        petal.style.opacity = Math.random() * 0.5 + 0.2;
+        
+        container.appendChild(petal);
+        
+        setTimeout(() => {
+            petal.remove();
+        }, 10000);
+    }
+
+    setInterval(createPetal, 600);
 </script>
 {% endblock %}

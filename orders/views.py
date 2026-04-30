@@ -99,15 +99,17 @@ def checkout(request):
             'full_name': request.user.get_full_name() or request.user.username,
             'email': request.user.email,
         }
-        if hasattr(request.user, 'profile'):
+        try:
             profile = request.user.profile
             initial_data.update({
-                'phone': profile.phone or '',
-                'address': profile.address or '',
-                'city': profile.city or '',
-                'state': profile.state or '',
-                'zip_code': profile.zip_code or '',
+                'phone': getattr(profile, 'phone', ''),
+                'address': getattr(profile, 'address', ''),
+                'city': getattr(profile, 'city', ''),
+                'state': getattr(profile, 'state', ''),
+                'zip_code': getattr(profile, 'zip_code', ''),
             })
+        except Exception:
+            pass
         form = CheckoutForm(initial=initial_data)
     
     # Tính tổng giá cho các sản phẩm được chọn để hiển thị

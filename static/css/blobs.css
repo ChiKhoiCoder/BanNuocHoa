@@ -1,4 +1,3 @@
-/* Animated Background Blobs for a modern, fluid feel */
 .bg-blobs {
     position: fixed;
     top: 0;
@@ -8,67 +7,111 @@
     z-index: -2;
     overflow: hidden;
     filter: blur(80px);
-    opacity: 0.4;
+    opacity: 0.8; 
     pointer-events: none;
+    background: linear-gradient(135deg, #f0fdf4 0%, #fff7ed 50%, #ffffff 100%);
+    animation: hueCycle 12s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+@keyframes hueCycle {
+    0% { filter: blur(80px) hue-rotate(0deg); }
+    100% { filter: blur(80px) hue-rotate(60deg); }
 }
 
 .blob {
     position: absolute;
     border-radius: 50%;
-    animation: blobFloat 25s infinite alternate ease-in-out;
+    animation: blobFloat 15s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+    mix-blend-mode: soft-light;
 }
 
 .blob-1 {
-    width: 600px;
-    height: 600px;
-    background: var(--accent-indigo);
-    top: -100px;
-    right: -100px;
-    animation-delay: 0s;
+    width: 1000px;
+    height: 1000px;
+    background: #059669; /* Deep Emerald */
+    top: -300px;
+    right: -300px;
+    opacity: 0.9;
 }
 
 .blob-2 {
-    width: 500px;
-    height: 500px;
-    background: var(--accent-purple);
-    bottom: -150px;
-    left: -100px;
-    animation-delay: -7s;
+    width: 900px;
+    height: 900px;
+    background: #ea580c; /* Deep Orange */
+    bottom: -300px;
+    left: -300px;
+    animation-delay: -5s;
+    opacity: 0.8;
 }
 
 .blob-3 {
-    width: 400px;
-    height: 400px;
-    background: var(--accent-pink);
-    top: 40%;
-    left: 30%;
-    animation-delay: -15s;
+    width: 800px;
+    height: 800px;
+    background: #fbbf24; /* Rich Amber */
+    top: 20%;
+    left: 10%;
+    animation-delay: -10s;
+    opacity: 0.7;
 }
 
 .blob-4 {
-    width: 350px;
-    height: 350px;
-    background: var(--primary-color);
-    bottom: 20%;
-    right: 20%;
-    animation-delay: -20s;
+    width: 700px;
+    height: 700px;
+    background: #10b981; /* Primary Green */
+    bottom: 10%;
+    right: 10%;
+    animation-delay: -15s;
+    opacity: 0.8;
+}
+
+/* Floating Particles Effect */
+.perfume-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--particle-color, #10b981);
+    border-radius: 50%;
+    opacity: 0.6; /* Bolder particles */
+    animation: floatParticle 15s infinite linear;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(110vh) rotate(0deg) scale(1); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) rotate(360deg) scale(1.5); opacity: 0; }
 }
 
 @keyframes blobFloat {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-    33% {
-        transform: translate(100px, 150px) scale(1.1) rotate(120deg);
-    }
-    66% {
-        transform: translate(-50px, 50px) scale(0.9) rotate(240deg);
-    }
-    100% {
-        transform: translate(0, 0) scale(1) rotate(360deg);
-    }
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    33% { transform: translate(60px, -40px) scale(1.15) rotate(5deg); }
+    66% { transform: translate(-40px, 80px) scale(0.9) rotate(-5deg); }
+    100% { transform: translate(20px, 20px) scale(1.05) rotate(2deg); }
 }
 
+/* --- NEON DARK MODE OVERRIDES --- */
 [data-theme="dark"] .bg-blobs {
-    opacity: 0.25;
+    opacity: 0.6;
+    background: radial-gradient(circle at 50% 50%, #020617 0%, #000000 100%);
 }
+
+[data-theme="dark"] .blob {
+    mix-blend-mode: screen;
+    filter: blur(120px);
+}
+
+[data-theme="dark"] .blob-1 { background: #22c55e; } /* Neon Green */
+[data-theme="dark"] .blob-2 { background: #f97316; } /* Lava Orange */
+[data-theme="dark"] .blob-3 { background: #1e40af; } /* Electric Blue */
+[data-theme="dark"] .blob-4 { background: #86198f; } /* Neon Purple */

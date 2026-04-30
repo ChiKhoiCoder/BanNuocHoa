@@ -31,7 +31,7 @@ function initializeMiniCart() {
         const t = e.target.closest('.add-to-cart');
         if (!t) return;
         const productId = t.dataset.productId;
-        const card = t.closest('.product-card');
+        const card = t.closest('.product-card') || t.closest('.product-luxe-card') || document;
         const selectedVolume = card.querySelector('.volume-btn.active')?.dataset?.volume || '30';
 
         // Optimistic UI: show loader on button
@@ -127,24 +127,24 @@ function initializeStickyHeader() {
 
     let lastScroll = 0;
     const headerHeight = header.offsetHeight;
+    let ticking = false;
 
     window.addEventListener('scroll', function () {
-        const currentScroll = window.pageYOffset;
+        if (!ticking) {
+            window.requestAnimationFrame(function () {
+                const currentScroll = window.pageYOffset;
 
-        if (currentScroll > headerHeight) {
-            header.classList.add('sticky');
+                if (currentScroll > headerHeight) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
 
-            // Hide on scroll down, show on scroll up
-            if (currentScroll > lastScroll && currentScroll > headerHeight * 2) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-        } else {
-            header.classList.remove('sticky', 'hidden');
+                lastScroll = currentScroll;
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        lastScroll = currentScroll;
     });
 }
 
@@ -233,7 +233,42 @@ function addEntranceAnimations() {
     elements.forEach(el => observer.observe(el));
 }
 
-// Initialize entrance animations
-if (document.querySelector('.animate-on-scroll')) {
-    addEntranceAnimations();
+/**
+ * Background Particle System
+ */
+function initParticles() {
+    const container = document.getElementById('particle-container');
+    if (!container) return;
+
+    const particleCount = 20;
+    const colors = ['#10b981', '#f97316', '#fbbf24', '#ffffff'];
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random styles
+        const size = Math.random() * 15 + 5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const delay = Math.random() * 20;
+        const duration = Math.random() * 10 + 15;
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.setProperty('--particle-color', color);
+
+        container.appendChild(particle);
+    }
 }
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    initParticles();
+    if (document.querySelector('.animate-on-scroll')) {
+        addEntranceAnimations();
+    }
+});
